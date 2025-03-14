@@ -1,2 +1,2 @@
 # tuDo
-ues tuDo to do TODO
+Ues TuDo to do TODO
