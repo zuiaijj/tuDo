@@ -8,10 +8,7 @@ class ThemeManager {
   static ThemeData getLightMaterialTheme() {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
-        brightness: Brightness.light,
-      ),
+      colorScheme: colorSchemeWhite,
       appBarTheme: const AppBarTheme(
         centerTitle: false,
         elevation: 0,
@@ -37,14 +34,39 @@ class ThemeManager {
     );
   }
 
+  static ColorScheme get colorSchemeBlack {
+    return ColorScheme(
+      surface: Colors.black,
+      onSurface: Colors.white,
+      brightness: Brightness.dark,
+      primary: Colors.black,
+      onPrimary: Colors.white,
+      secondary: Colors.black,
+      onSecondary: Colors.white,
+      error: Colors.red,
+      onError: Colors.white,
+    );
+  }
+
+  static ColorScheme get colorSchemeWhite {
+    return ColorScheme(
+      surface: Colors.white,
+      onSurface: Colors.black,
+      brightness: Brightness.light,
+      primary: Colors.white,
+      onPrimary: Colors.black,
+      secondary: Colors.white,
+      onSecondary: Colors.black,
+      error: Colors.red,
+      onError: Colors.white,
+    );
+  } 
+
   /// 获取Material风格的暗色主题
   static ThemeData getDarkMaterialTheme() {
     return ThemeData(
       useMaterial3: true,
-      colorScheme: ColorScheme.fromSeed(
-        seedColor: Colors.blue,
-        brightness: Brightness.dark,
-      ),
+      colorScheme: colorSchemeBlack,
       appBarTheme: const AppBarTheme(
         centerTitle: false,
         elevation: 0,
@@ -105,4 +127,17 @@ class ThemeManager {
       return isDark ? getDarkMaterialTheme() : getLightMaterialTheme();
     }
   }
+
+  static Image getThemeLogo(BuildContext context) {
+    final isDark = isDarkMode(context);
+    return isDark ? Image.asset('assets/base/logo_black.png') : Image.asset('assets/base/logo_white.png');
+  }
 } 
+
+bool isDarkMode(BuildContext context) {
+  final brightness = Theme.of(context).brightness;
+  return brightness == Brightness.dark;
+}
+
+ThemeData theme(BuildContext context) => Theme.of(context);
+ColorScheme colorScheme(BuildContext context) => theme(context).colorScheme;
