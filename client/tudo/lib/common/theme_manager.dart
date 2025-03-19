@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'platform_features.dart';
+import 'platform/platform_features.dart';
 
 /// 主题管理器，用于处理不同平台的主题样式
 class ThemeManager {

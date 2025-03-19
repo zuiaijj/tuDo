@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tudo/common/platform_adapter.dart';
+import 'package:tudo/common/platform/platform_adapter.dart';
 import 'package:tudo/common/theme_manager.dart';
 import 'pages/home_page.dart';
 
