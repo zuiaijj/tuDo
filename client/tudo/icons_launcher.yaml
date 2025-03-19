@@ -1,0 +1,13 @@
+icons_launcher:
+  image_path: "assets/base/logo_white.png"
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+    web:
+      enable: true
+    windows:
+      enable: true
+    macos:
+      enable: true

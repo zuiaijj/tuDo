@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:tudo/common/theme_manager.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SplashPage extends StatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
