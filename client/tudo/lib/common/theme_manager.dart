@@ -128,9 +128,13 @@ class ThemeManager {
     }
   }
 
-  static Image getThemeLogo(BuildContext context) {
+  static Image getThemeLogoTran(BuildContext context, {double size = 240}) {
     final isDark = isDarkMode(context);
-    return isDark ? Image.asset('assets/base/logo_black.png') : Image.asset('assets/base/logo_white.png');
+    return isDark
+        ? Image.asset('assets/base/logo_black_tran.png',
+            width: size, height: size)
+        : Image.asset('assets/base/logo_white_tran.png',
+            width: size, height: size);
   }
 } 
 

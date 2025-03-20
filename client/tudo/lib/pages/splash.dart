@@ -42,7 +42,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
       body: Center(
         child: FadeTransition(
           opacity: _animation,
-          child: ThemeManager.getThemeLogo(context),
+          child: ThemeManager.getThemeLogoTran(context),
         ),
       ),
     );
