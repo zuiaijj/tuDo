@@ -1,0 +1,206 @@
+// DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
+// This is a library that provides messages for a zh_HK locale. All the
+// messages from the main program should be duplicated here with the same
+// function name.
+
+// Ignore issues from commonly used lints in this file.
+// ignore_for_file:unnecessary_brace_in_string_interps, unnecessary_new
+// ignore_for_file:prefer_single_quotes,comment_references, directives_ordering
+// ignore_for_file:annotate_overrides,prefer_generic_function_type_aliases
+// ignore_for_file:unused_import, file_names, avoid_escaping_inner_quotes
+// ignore_for_file:unnecessary_string_interpolations, unnecessary_string_escapes
+
+import 'package:intl/intl.dart';
+import 'package:intl/message_lookup_by_library.dart';
+
+final messages = new MessageLookup();
+
+typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
+
+class MessageLookup extends MessageLookupByLibrary {
+  String get localeName => 'zh_HK';
+
+  static String m0(clear, beautiful) => "請上傳一張${clear}且${beautiful}的您自己的海報";
+
+  static String m1(count) => "${count}  秒內，你可以換取一個新的驗證碼";
+
+  static String m2(productID) => "產品：${productID} 信息無法查詢";
+
+  final messages = _notInlinedMessages(_notInlinedMessages);
+  static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "about_me": MessageLookupByLibrary.simpleMessage("個人信息"),
+    "account_and_security": MessageLookupByLibrary.simpleMessage("賬號與安全"),
+    "album_not_authorized": MessageLookupByLibrary.simpleMessage("相冊未授權"),
+    "and_no_trim": MessageLookupByLibrary.simpleMessage(" 和 "),
+    "apply_for_deleting": MessageLookupByLibrary.simpleMessage("申請註銷"),
+    "beautiful": MessageLookupByLibrary.simpleMessage("優美"),
+    "billion": MessageLookupByLibrary.simpleMessage("十億"),
+    "bills": MessageLookupByLibrary.simpleMessage("帳單記錄"),
+    "bio": MessageLookupByLibrary.simpleMessage("個人簡介"),
+    "birthday": MessageLookupByLibrary.simpleMessage("生日"),
+    "blacklist": MessageLookupByLibrary.simpleMessage("黑名單"),
+    "block": MessageLookupByLibrary.simpleMessage("拉黑"),
+    "buy": MessageLookupByLibrary.simpleMessage("購買"),
+    "by_signing_up": MessageLookupByLibrary.simpleMessage("註冊表示你同意我們的"),
+    "camera_not_authorized": MessageLookupByLibrary.simpleMessage("相機未授權"),
+    "cancel": MessageLookupByLibrary.simpleMessage("取消"),
+    "chats": MessageLookupByLibrary.simpleMessage("聊天"),
+    "child_safety_policy": MessageLookupByLibrary.simpleMessage("兒童安全政策"),
+    "choose_avatar_tip": m0,
+    "choose_your_avatar": MessageLookupByLibrary.simpleMessage("選擇你的頭像"),
+    "choose_your_birth": MessageLookupByLibrary.simpleMessage("選擇你的生日"),
+    "clear": MessageLookupByLibrary.simpleMessage("清晰"),
+    "common_continue": MessageLookupByLibrary.simpleMessage("繼續"),
+    "common_copy": MessageLookupByLibrary.simpleMessage("複製"),
+    "common_day": MessageLookupByLibrary.simpleMessage("日"),
+    "common_delete": MessageLookupByLibrary.simpleMessage("刪除"),
+    "common_skip": MessageLookupByLibrary.simpleMessage("忽略"),
+    "confirm": MessageLookupByLibrary.simpleMessage("確認"),
+    "confirm_delete": MessageLookupByLibrary.simpleMessage("確認註銷"),
+    "copy_success": MessageLookupByLibrary.simpleMessage("複製成功"),
+    "country_select_page_title": MessageLookupByLibrary.simpleMessage(
+      "選擇國家/地區",
+    ),
+    "create_order_error": MessageLookupByLibrary.simpleMessage("創建訂單錯誤"),
+    "create_your_nick": MessageLookupByLibrary.simpleMessage("請輸入你的名字"),
+    "del_in_order": MessageLookupByLibrary.simpleMessage(
+      "為了保護您的帳號安全，在註銷帳號前請確認是否需要備份重要資訊。註銷操作不可逆，請謹慎操作。如有任何疑問，請聯絡客服。",
+    ),
+    "del_tip_account_clean": MessageLookupByLibrary.simpleMessage("帳號中的內容將會清空"),
+    "del_tip_account_clean1": MessageLookupByLibrary.simpleMessage(
+      "包括聊天記錄、個人資料等資訊將被清空",
+    ),
+    "del_tip_can_not_1": MessageLookupByLibrary.simpleMessage("帳號註銷後將無法恢復"),
+    "del_tip_can_not_2": MessageLookupByLibrary.simpleMessage(
+      "請確認是否需要註銷帳號，註銷後將無法恢復",
+    ),
+    "delete_account": MessageLookupByLibrary.simpleMessage("註銷帳號"),
+    "delete_ask": MessageLookupByLibrary.simpleMessage("您確定要撤銷註銷帳號操作嗎？"),
+    "delete_instruction": MessageLookupByLibrary.simpleMessage("註銷說明"),
+    "delete_tip_1": MessageLookupByLibrary.simpleMessage("註銷帳號後，您將無法使用目前帳號"),
+    "delete_tip_2": MessageLookupByLibrary.simpleMessage("註銷帳號後，您將無法使用目前帳號"),
+    "delete_tip_3": MessageLookupByLibrary.simpleMessage("您的個人資料將被刪除，無法找回"),
+    "dislike": MessageLookupByLibrary.simpleMessage("不喜歡"),
+    "dislike_toast": MessageLookupByLibrary.simpleMessage("您不喜歡了她/他"),
+    "edit_info": MessageLookupByLibrary.simpleMessage("編輯資料"),
+    "edit_info_hint": MessageLookupByLibrary.simpleMessage("請填寫"),
+    "equip": MessageLookupByLibrary.simpleMessage("裝扮"),
+    "expenditure": MessageLookupByLibrary.simpleMessage("支出"),
+    "fail": MessageLookupByLibrary.simpleMessage("失敗"),
+    "female": MessageLookupByLibrary.simpleMessage("女"),
+    "gallery": MessageLookupByLibrary.simpleMessage("相冊"),
+    "gender": MessageLookupByLibrary.simpleMessage("性別"),
+    "google_service_error": MessageLookupByLibrary.simpleMessage("無法連接到谷歌服務"),
+    "has_worn": MessageLookupByLibrary.simpleMessage("已配戴"),
+    "home": MessageLookupByLibrary.simpleMessage("大廳"),
+    "im_clear_msg": MessageLookupByLibrary.simpleMessage("清空聊天記錄"),
+    "im_official": MessageLookupByLibrary.simpleMessage("Deepmeet Team"),
+    "im_title": MessageLookupByLibrary.simpleMessage("消息"),
+    "im_unknown_message": MessageLookupByLibrary.simpleMessage(
+      "未知消息類型，請升級至最新版本",
+    ),
+    "income": MessageLookupByLibrary.simpleMessage("收入"),
+    "insult": MessageLookupByLibrary.simpleMessage("侮辱謾罵"),
+    "language_eng": MessageLookupByLibrary.simpleMessage("English"),
+    "language_th": MessageLookupByLibrary.simpleMessage("ไทย"),
+    "language_title": MessageLookupByLibrary.simpleMessage("语言"),
+    "language_tw": MessageLookupByLibrary.simpleMessage("繁體中文"),
+    "language_vi": MessageLookupByLibrary.simpleMessage("Tiếng Việt"),
+    "language_zh": MessageLookupByLibrary.simpleMessage("简体中文"),
+    "log_out": MessageLookupByLibrary.simpleMessage("退出登錄"),
+    "login_by_phone": MessageLookupByLibrary.simpleMessage("手機號登錄"),
+    "login_code_hint": MessageLookupByLibrary.simpleMessage("輸入驗證碼"),
+    "login_continue": MessageLookupByLibrary.simpleMessage("繼續"),
+    "login_in": MessageLookupByLibrary.simpleMessage("登入"),
+    "login_nick_hint": MessageLookupByLibrary.simpleMessage("輸入你的暱稱"),
+    "login_phone": MessageLookupByLibrary.simpleMessage("手機號登錄"),
+    "login_phone_hint": MessageLookupByLibrary.simpleMessage("輸入手機號"),
+    "login_resend_code": MessageLookupByLibrary.simpleMessage("重新發送"),
+    "login_title": MessageLookupByLibrary.simpleMessage("登錄"),
+    "login_verification_code_content": m1,
+    "login_way": MessageLookupByLibrary.simpleMessage("登入方式"),
+    "male": MessageLookupByLibrary.simpleMessage("男"),
+    "me_title": MessageLookupByLibrary.simpleMessage("我"),
+    "media_library_is_not_authorized": MessageLookupByLibrary.simpleMessage(
+      "媒體庫未授權",
+    ),
+    "million": MessageLookupByLibrary.simpleMessage("M"),
+    "month": MessageLookupByLibrary.simpleMessage("月"),
+    "months": MessageLookupByLibrary.simpleMessage("月"),
+    "mouth1": MessageLookupByLibrary.simpleMessage("一月"),
+    "mouth10": MessageLookupByLibrary.simpleMessage("十月"),
+    "mouth11": MessageLookupByLibrary.simpleMessage("十一月"),
+    "mouth12": MessageLookupByLibrary.simpleMessage("十二月"),
+    "mouth2": MessageLookupByLibrary.simpleMessage("二月"),
+    "mouth3": MessageLookupByLibrary.simpleMessage("三月"),
+    "mouth4": MessageLookupByLibrary.simpleMessage("四月"),
+    "mouth5": MessageLookupByLibrary.simpleMessage("五月"),
+    "mouth6": MessageLookupByLibrary.simpleMessage("六月"),
+    "mouth7": MessageLookupByLibrary.simpleMessage("七月"),
+    "mouth8": MessageLookupByLibrary.simpleMessage("八月"),
+    "mouth9": MessageLookupByLibrary.simpleMessage("九月"),
+    "my_code_is": MessageLookupByLibrary.simpleMessage("我的驗證碼是"),
+    "network_failed": MessageLookupByLibrary.simpleMessage("網絡錯誤。請確認網絡連接並重試"),
+    "nick": MessageLookupByLibrary.simpleMessage("暱稱"),
+    "opreation_faild": MessageLookupByLibrary.simpleMessage("操作失敗"),
+    "opreation_success": MessageLookupByLibrary.simpleMessage("操作成功"),
+    "pay_ack_failure": MessageLookupByLibrary.simpleMessage("訂單確認錯誤"),
+    "person_profile": MessageLookupByLibrary.simpleMessage("資料"),
+    "personal_profile": MessageLookupByLibrary.simpleMessage("個人主頁"),
+    "phone_number": MessageLookupByLibrary.simpleMessage("電話號碼"),
+    "political_rumors": MessageLookupByLibrary.simpleMessage("政治謠言"),
+    "privacy_policy": MessageLookupByLibrary.simpleMessage("隱私協議"),
+    "provider_contents_for_you": MessageLookupByLibrary.simpleMessage(
+      "為您提供個人化內容",
+    ),
+    "query_production_error": m2,
+    "recharge": MessageLookupByLibrary.simpleMessage("充值"),
+    "recharge_cancel": MessageLookupByLibrary.simpleMessage("取消充值"),
+    "recharge_failure": MessageLookupByLibrary.simpleMessage("充值失敗"),
+    "recharge_success": MessageLookupByLibrary.simpleMessage("充值成功"),
+    "report": MessageLookupByLibrary.simpleMessage("舉報"),
+    "report_child_abuse": MessageLookupByLibrary.simpleMessage("兒童性虐待和性剝削"),
+    "revert": MessageLookupByLibrary.simpleMessage("撤銷"),
+    "save": MessageLookupByLibrary.simpleMessage("保存"),
+    "select_your_gender": MessageLookupByLibrary.simpleMessage("請選擇你的性別"),
+    "set_up": MessageLookupByLibrary.simpleMessage("設置"),
+    "setting": MessageLookupByLibrary.simpleMessage("設置"),
+    "store": MessageLookupByLibrary.simpleMessage("商城"),
+    "success": MessageLookupByLibrary.simpleMessage("成功"),
+    "switch_language": MessageLookupByLibrary.simpleMessage("切換語言"),
+    "terms_service": MessageLookupByLibrary.simpleMessage("服務協議"),
+    "thousand": MessageLookupByLibrary.simpleMessage("K"),
+    "time_just": MessageLookupByLibrary.simpleMessage("剛剛"),
+    "tips": MessageLookupByLibrary.simpleMessage("溫馨提示"),
+    "turn_on_the_album": MessageLookupByLibrary.simpleMessage(
+      "在“設置-App”中打開相冊即可正常保存照片",
+    ),
+    "turn_on_the_camera": MessageLookupByLibrary.simpleMessage(
+      "在\"設置-App\"中開啓相機才能正常使用哦~",
+    ),
+    "unblock": MessageLookupByLibrary.simpleMessage("解除拉黑"),
+    "unknow_type": MessageLookupByLibrary.simpleMessage("未知類型"),
+    "user_baiyang": MessageLookupByLibrary.simpleMessage("牡羊座"),
+    "user_chinv": MessageLookupByLibrary.simpleMessage("處女座"),
+    "user_height": MessageLookupByLibrary.simpleMessage("身高"),
+    "user_jinniu": MessageLookupByLibrary.simpleMessage("金牛座"),
+    "user_juxie": MessageLookupByLibrary.simpleMessage("巨蟹座"),
+    "user_moji": MessageLookupByLibrary.simpleMessage("摩羯座"),
+    "user_sheshow": MessageLookupByLibrary.simpleMessage("射手座"),
+    "user_shizi": MessageLookupByLibrary.simpleMessage("獅子座"),
+    "user_shuangyu": MessageLookupByLibrary.simpleMessage("雙魚座"),
+    "user_shuangzi": MessageLookupByLibrary.simpleMessage("雙子座"),
+    "user_shuiping": MessageLookupByLibrary.simpleMessage("水瓶座"),
+    "user_take_photo": MessageLookupByLibrary.simpleMessage("相機"),
+    "user_tiancheng": MessageLookupByLibrary.simpleMessage("天秤座"),
+    "user_tianxie": MessageLookupByLibrary.simpleMessage("天蠍座"),
+    "verbal_harassment": MessageLookupByLibrary.simpleMessage("言語騷擾"),
+    "violent_content": MessageLookupByLibrary.simpleMessage("暴力內容"),
+    "vulgar": MessageLookupByLibrary.simpleMessage("色情低俗"),
+    "wallet": MessageLookupByLibrary.simpleMessage("錢包"),
+    "want_call_you_ask": MessageLookupByLibrary.simpleMessage("您希望別人如何稱呼您"),
+    "will_send_auth": MessageLookupByLibrary.simpleMessage("我們會以短信的形式給您發送驗證碼"),
+    "year": MessageLookupByLibrary.simpleMessage("年"),
+    "yesterday": MessageLookupByLibrary.simpleMessage("昨日"),
+  };
+}

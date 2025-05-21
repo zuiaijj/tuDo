@@ -40,7 +40,10 @@ dependencies:
   icons_launcher: ^3.0.1
   flutter_native_splash: ^2.4.4
   flutter_screenutil: ^5.9.3
-
+  logger: ^2.5.0
+  dio: ^5.7.0
+  shared_preferences: ^2.3.1
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
