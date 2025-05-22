@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:tudo/common/log/td_logger.dart';
 
 class MetaTool {

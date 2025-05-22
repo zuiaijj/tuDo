@@ -38,8 +38,8 @@
 - [x] AppLogo Icon
 - [x] 日志
 - [x] 网络
-- [ ] EventBus
-- [ ] 环境
+- [x] EventBus
+- [x] 环境
 - [ ] 根页面
 - [ ] Toast
 
