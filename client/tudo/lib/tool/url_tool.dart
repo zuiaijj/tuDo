@@ -1,10 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:flutter/gestures.dart';
 import 'package:tudo/common/const/app_const.dart';
 import 'package:tudo/common/net/meta.dart';
 import 'package:tudo/tool/string_tool.dart';
@@ -117,80 +111,68 @@ class UrlTool {
     return true;
   }
 
-  /// 点击文本链接
-  static TapGestureRecognizer textLink({
-    String? text,
-    required String link,
-  }) {
-    TapGestureRecognizer tap = TapGestureRecognizer()
-      ..onTap = () async {
-        launchURL(Get.context!, link);
-      };
-    return tap;
-  }
-
   /// 在应用内打开页面
-  static FutureOr<void> launchURL(
-    BuildContext context,
-    String url, {
-    bool needMeta = true,
-    bool halfScreen = false,
-    bool needNavBar = false,
-    Widget? loadingWidget,
-    final bool showWebLoading = true,
-    final Color webBgColor = Colors.white,
-    Function(String url)? onPageFinished,
-    Function? backHandler,
-  }) async {
-    String? path;
-    try {
-      Uri? uri = Uri.tryParse(url);
-      path = uri?.path;
-    } catch (e) {
-      if (kDebugMode) {
-        print(e.toString());
-      }
-    }
-    // 自定义webview
-    if (needMeta) url = await UrlTool.urlWithMeta(url);
-    if (halfScreen == true) {
-      // await showCupertinoModalPopup<void>(
-      //     context: Get.context!,
-      //     useRootNavigator: true,
-      //     routeSettings: RouteSettings(name: "half/WebView/$path"),
-      //     builder: (BuildContext context) {
-      //       return Web(
-      //         context: Get.context!,
-      //         url: url,
-      //         halfScreen: halfScreen,
-      //         needNavBar: needNavBar,
-      //         loadingWidget: loadingWidget,
-      //         showWebLoading: showWebLoading,
-      //         webBgColor: webBgColor,
-      //         onPageFinished: onPageFinished,
-      //       );
-      //     }).then((value) {
-      //   backHandler?.call();
-      // });
-    } else {
-      // await Navigator.push(
-      //         Get.context!,
-      //         PageRouteBuilder(
-      //             opaque: false,
-      //             pageBuilder: (context, animation, secondaryAnimation) {
-      //               return Web(
-      //                   context: Get.context!,
-      //                   url: url,
-      //                   needNavBar: needNavBar,
-      //                   showWebLoading: showWebLoading,
-      //                   loadingWidget: loadingWidget,
-      //                   webBgColor: webBgColor,
-      //                   onPageFinished: onPageFinished);
-      //             },
-      //             settings: RouteSettings(name: "full/WebView/$path")))
-      //     .then((value) {
-      //   backHandler?.call();
-      // });
-    }
-  }
+  // static FutureOr<void> launchURL(
+  //   BuildContext context,
+  //   String url, {
+  //   bool needMeta = true,
+  //   bool halfScreen = false,
+  //   bool needNavBar = false,
+  //   Widget? loadingWidget,
+  //   final bool showWebLoading = true,
+  //   final Color webBgColor = Colors.white,
+  //   Function(String url)? onPageFinished,
+  //   Function? backHandler,
+  // }) async {
+  //   String? path;
+  //   try {
+  //     Uri? uri = Uri.tryParse(url);
+  //     path = uri?.path;
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print(e.toString());
+  //     }
+  //   }
+  //   // 自定义webview
+  //   if (needMeta) url = await UrlTool.urlWithMeta(url);
+  //   if (halfScreen == true) {
+  //     // await showCupertinoModalPopup<void>(
+  //     //     context: Get.context!,
+  //     //     useRootNavigator: true,
+  //     //     routeSettings: RouteSettings(name: "half/WebView/$path"),
+  //     //     builder: (BuildContext context) {
+  //     //       return Web(
+  //     //         context: Get.context!,
+  //     //         url: url,
+  //     //         halfScreen: halfScreen,
+  //     //         needNavBar: needNavBar,
+  //     //         loadingWidget: loadingWidget,
+  //     //         showWebLoading: showWebLoading,
+  //     //         webBgColor: webBgColor,
+  //     //         onPageFinished: onPageFinished,
+  //     //       );
+  //     //     }).then((value) {
+  //     //   backHandler?.call();
+  //     // });
+  //   } else {
+  //     // await Navigator.push(
+  //     //         Get.context!,
+  //     //         PageRouteBuilder(
+  //     //             opaque: false,
+  //     //             pageBuilder: (context, animation, secondaryAnimation) {
+  //     //               return Web(
+  //     //                   context: Get.context!,
+  //     //                   url: url,
+  //     //                   needNavBar: needNavBar,
+  //     //                   showWebLoading: showWebLoading,
+  //     //                   loadingWidget: loadingWidget,
+  //     //                   webBgColor: webBgColor,
+  //     //                   onPageFinished: onPageFinished);
+  //     //             },
+  //     //             settings: RouteSettings(name: "full/WebView/$path")))
+  //     //     .then((value) {
+  //     //   backHandler?.call();
+  //     // });
+  //   }
+  // }
 }
