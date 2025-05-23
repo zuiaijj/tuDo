@@ -16,22 +16,24 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RootPageController>(
-      init: RootPageController(),
-      builder: (controller) {
-        return Stack(
-          children: [
-            // 首页大厅
-            if (controller.isLoggedIn) Container(),
+    return Scaffold(
+      body: GetBuilder<RootPageController>(
+        init: RootPageController(),
+        builder: (controller) {
+          return Stack(
+            children: [
+              // 首页大厅
+              if (controller.isLoggedIn) Container(),
 
-            // 登录页面
-            if (!controller.isLoggedIn) Container(),
+              // 登录页面
+              if (!controller.isLoggedIn) Container(),
 
-            // 加载页面
-            if (controller.isLoading) const SplashPage(),
-          ],
-        );
-      },
+              // 加载页面
+              if (controller.isLoading) const SplashPage(),
+            ],
+          );
+        },
+      ),
     );
   }
 }

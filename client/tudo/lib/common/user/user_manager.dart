@@ -50,9 +50,9 @@ class UserManager {
     Get.until((route) => route.settings.name == RouteConst.root);
   }
 
-  void _save() {
-    // SpTool.putString(AppSpKeys.userInfo, jsonEncode(_user?.toJson() ?? {}));
-  }
+  // void _save() {
+  // SpTool.putString(AppSpKeys.userInfo, jsonEncode(_user?.toJson() ?? {}));
+  // }
 
   void _load() {
     String userJson = SpTool.getString(AppSpKeys.userInfo);
