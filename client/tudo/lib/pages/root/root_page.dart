@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
-import 'package:tudo/pages/splash.dart';
+import 'package:tudo/pages/root/splash.dart';
 
 /// 页面Root page
 /// 所有页面的根页面

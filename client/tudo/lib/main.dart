@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:tudo/common/app_config/get_pages.dart';
+import 'package:tudo/common/route/get_pages.dart';
 import 'package:tudo/common/const/app_const.dart';
 import 'package:tudo/common/const/root_const.dart';
 import 'package:tudo/common/platform/platform_adapter.dart';

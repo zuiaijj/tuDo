@@ -1,5 +1,9 @@
 import 'package:get/get.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'user_model.g.dart';
+
+@JsonSerializable()
 class UserModel {
   int id;
   String? session;
@@ -11,6 +15,7 @@ class UserModel {
   String birth;
   int height;
   String description;
+  @JsonKey(includeFromJson: false, includeToJson: false)
   RxBool? isblock;
 
   UserModel.empty()
@@ -38,4 +43,9 @@ class UserModel {
       required this.height,
       required this.description,
       this.isblock});
+
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }
