@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tudo/common/app_config/get_pages.dart';
 import 'package:tudo/common/const/app_const.dart';
+import 'package:tudo/common/const/root_const.dart';
 import 'package:tudo/common/platform/platform_adapter.dart';
 import 'package:tudo/common/theme_manager.dart';
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeManager.getPlatformTheme(isDark: false),
         darkTheme: ThemeManager.getPlatformTheme(isDark: true),
         popGesture: GetPlatform.isIOS,
-        initialRoute: defaultPage,
+        initialRoute: RouteConst.root,
         getPages: GlobalPages.pages,
         // 根据系统设置自动切换亮暗主题
         themeMode: ThemeMode.system,

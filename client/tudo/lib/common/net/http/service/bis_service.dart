@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/io.dart';
 import 'package:tudo/common/const/app_const.dart';
+import 'package:tudo/common/env/env_manager.dart';
 import 'package:tudo/tool/sp_tool.dart';
 import 'package:tudo/tool/string_tool.dart';
 import '../base_service.dart';
@@ -33,10 +34,9 @@ class BisService extends BaseDioProvider {
   @override
   void initDio() {
     super.initDio();
-    // baseUrl = EnvManager.isTest
-    //     ? AppServerConfig.testServiceApi
-    //     : AppServerConfig.serviceApi;
-    baseUrl = AppServerConfig.serviceApi;
+    baseUrl = EnvManager.isTest
+        ? AppServerConfig.testServiceApi
+        : AppServerConfig.serviceApi;
     dio.options.headers = {
       "Access-Control-Allow-Origin": "*",
     };

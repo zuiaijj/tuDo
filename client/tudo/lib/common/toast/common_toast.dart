@@ -18,7 +18,7 @@ class ToastTool {
   //* [clickClose] 是否可以点击关闭
   //* [crossPage] 是否可以跨页面
   //* [allowClick] 是否可以点击loading后的其他页面
-  static CancelFunc showLoading(String text,
+  static CancelFunc showLoading(
       {bool clickClose = false,
       bool crossPage = true,
       bool allowClick = false}) {

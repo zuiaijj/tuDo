@@ -1,14 +1,12 @@
 import 'package:get/get.dart';
-import 'package:tudo/pages/splash.dart';
-
-const String defaultPage = '/';
-
+import 'package:tudo/common/const/root_const.dart';
+import 'package:tudo/pages/root/root_page.dart';
 
 class GlobalPages {
   static final pages = [
     GetPage(
-      name: defaultPage,
-      page: () => const SplashPage(),
+      name: RouteConst.root,
+      page: () => const RootPage(),
     ),
   ];
 }
