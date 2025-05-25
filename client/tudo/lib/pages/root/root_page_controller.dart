@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:tudo/common/env/env_manager.dart';
 import 'package:tudo/common/net/http/api/api.dart';
+import 'package:tudo/common/theme/theme_manager.dart';
 import 'package:tudo/common/toast/common_toast.dart';
 import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/tool/file_tool.dart';
@@ -57,6 +58,8 @@ class RootPageController extends GetxController {
     initAppOnce(Api.ins.init, InitAppTag.initApi);
     // 初始化loading
     initAppOnce(ToastTool.configToast, InitAppTag.initLoading);
+    // 初始化主题
+    initAppOnce(initTheme, InitAppTag.initTheme);
   }
 
   Future<void> initAfterAgree() async {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tudo/common/theme_manager.dart';
+import 'package:tudo/common/theme/theme_manager.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -8,7 +8,8 @@ class SplashPage extends StatefulWidget {
   State<SplashPage> createState() => _SplashPageState();
 }
 
-class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateMixin {
+class _SplashPageState extends State<SplashPage>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -22,7 +23,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
 
     _animation = Tween<double>(
       begin: 0.3, // 最小透明度
-      end: 1.0,   // 最大透明度
+      end: 1.0, // 最大透明度
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut, // 使用easeInOut曲线使动画更平滑
@@ -47,4 +48,4 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
       ),
     );
   }
-} 
+}

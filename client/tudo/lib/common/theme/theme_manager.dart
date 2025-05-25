@@ -1,6 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'platform/platform_features.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tudo/common/const/sp_const.dart';
+import 'package:tudo/tool/sp_tool.dart';
+import '../platform/platform_features.dart';
+
+void setTheme(ThemeStatus themeStatus) async {
+  await SpTool.putInt(SpConst.themeModel, themeStatus.index);
+  initTheme(Get.context!);
+}
+
+/// 初始化主题
+void initTheme(BuildContext context) async {
+  // 平台的模式
+  Brightness platformBrightness = MediaQuery.of(context).platformBrightness;
+  // 本地模式
+  int? themeModel = SpTool.getInt(SpConst.themeModel);
+  // TabbarController tabbarController = Get.put(TabbarController());
+  switch (themeModel) {
+    case 0:
+
+      /// 跟随系统
+      // ignore: use_build_context_synchronously
+      if (platformBrightness == Brightness.dark) {
+        Get.changeThemeMode(ThemeMode.dark);
+        // tabbarController.themeModelInt.value = 1;
+      } else {
+        Get.changeThemeMode(ThemeMode.light);
+        // tabbarController.themeModelInt.value = 0;
+      }
+      break;
+    case 1:
+
+      /// 深色模式
+      Get.changeThemeMode(ThemeMode.dark);
+      // tabbarController.themeModelInt.value = 1;
+      break;
+    case 2:
+
+      /// 浅色模式
+      Get.changeThemeMode(ThemeMode.light);
+      // tabbarController.themeModelInt.value = 0;
+      break;
+    default:
+
+      /// 跟随系统
+      // ignore: use_build_context_synchronously
+      if (platformBrightness == Brightness.dark) {
+        Get.changeThemeMode(ThemeMode.dark);
+        // tabbarController.themeModelInt.value = 1;
+      } else {
+        Get.changeThemeMode(ThemeMode.light);
+        // tabbarController.themeModelInt.value = 0;
+      }
+  }
+}
+
+enum ThemeStatus {
+  system,
+  dark,
+  light,
+  autoDark,
+}
 
 /// 主题管理器，用于处理不同平台的主题样式
 class ThemeManager {
@@ -9,14 +71,16 @@ class ThemeManager {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorSchemeWhite,
-      appBarTheme: const AppBarTheme(
-        centerTitle: false,
-        elevation: 0,
-      ),
+      appBarTheme: _getAppBarTheme(colorSchemeWhite),
       cardTheme: const CardTheme(
         elevation: 2,
         margin: EdgeInsets.all(8),
       ),
+      iconTheme: IconThemeData(
+        color: colorSchemeWhite.primary,
+      ),
+      textTheme: _getTextTheme(colorSchemeWhite),
+      brightness: colorSchemeWhite.brightness,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -135,19 +199,103 @@ class ThemeManager {
         outlineVariant: Color(0xFFEAEAEA));
   }
 
+  static _getTextTheme(ColorScheme colorScheme) {
+    return TextTheme(
+      displayLarge: TextStyle(
+          fontSize: 40.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 1.5,
+          height: 1.5,
+          fontFamily: "SourceHanSerifCN"),
+      displayMedium: TextStyle(
+        fontSize: 34.sp,
+        color: colorScheme.primary,
+        fontWeight: FontWeight.w800,
+        letterSpacing: 1.5,
+        height: 1.5,
+        fontFamily: "SourceHanSerifCN",
+      ),
+      displaySmall: TextStyle(
+          fontSize: 32.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.5,
+          height: 1.5),
+      headlineMedium: TextStyle(
+          fontSize: 28.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.5,
+          height: 1.5),
+      headlineSmall: TextStyle(
+          fontSize: 24.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 1.2,
+          height: 1.3),
+      titleLarge: TextStyle(
+          fontSize: 20.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1,
+          height: 1.2),
+      titleMedium: TextStyle(
+          fontSize: 17.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w600,
+          letterSpacing: 1,
+          height: 1.2),
+      titleSmall: TextStyle(
+          fontSize: 16.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w600,
+          height: 1.2),
+      bodyLarge: TextStyle(
+          fontSize: 16.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.normal,
+          height: 1.5),
+      bodyMedium: TextStyle(
+          fontSize: 14.sp,
+          color: colorScheme.primary,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 1,
+          height: 1.2),
+      bodySmall: TextStyle(
+          fontSize: 12.sp,
+          color: colorScheme.tertiary,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 1,
+          height: 1.2),
+    );
+  }
+
+  static _getAppBarTheme(ColorScheme colorScheme) {
+    return AppBarTheme(
+      color: colorScheme.surface,
+      elevation: 0,
+      iconTheme: IconThemeData(
+        color: colorScheme.primary,
+      ),
+    );
+  }
+
   /// 获取Material风格的暗色主题
   static ThemeData getDarkMaterialTheme() {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorSchemeBlack,
-      appBarTheme: const AppBarTheme(
-        centerTitle: false,
-        elevation: 0,
-      ),
+      appBarTheme: _getAppBarTheme(colorSchemeBlack),
       cardTheme: const CardTheme(
         elevation: 2,
         margin: EdgeInsets.all(8),
       ),
+      iconTheme: IconThemeData(
+        color: colorSchemeBlack.primary,
+      ),
+      textTheme: _getTextTheme(colorSchemeBlack),
+      brightness: colorSchemeWhite.brightness,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

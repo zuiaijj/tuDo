@@ -6,6 +6,7 @@ class InitAppTag {
   static const String initToast = 'initToast';
   static const String initSystemInfo = 'initSystemInfo';
   static const String initFileTool = 'initFileTool';
+  static const String initTheme = 'initTheme';
 }
 
 class AppSpKeys {
