@@ -18,6 +18,10 @@ class Settings:
     HOST = os.getenv("HOST", "127.0.0.1")
     PORT = int(os.getenv("PORT", 8000))
     
+    # 热重载配置
+    AUTO_RELOAD = os.getenv("AUTO_RELOAD", "True").lower() == "true"
+    RELOAD_DIRS = os.getenv("RELOAD_DIRS", "app").split(",")
+    
     # Redis 配置
     REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
 

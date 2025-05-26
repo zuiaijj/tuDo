@@ -18,4 +18,7 @@ python-dotenv==1.0.0
 # 开发工具
 pytest==7.4.3
 pytest-asyncio==0.21.1
-httpx==0.25.2 
+httpx==0.25.2
+
+# 热重载和文件监控
+watchdog==3.0.0 

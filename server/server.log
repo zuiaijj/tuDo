@@ -23,3 +23,14 @@
 [2025-05-26 18:33:48 +0800] [87525] [INFO] Starting worker [87525]
 [2025-05-26 18:33:59 +0800] [87525] [DEBUG] Sanic-CORS: Request to '/' matches CORS resource '/*'. Using options: {'origins': ['.*'], 'methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'allow_headers': ['.*'], 'expose_headers': None, 'supports_credentials': False, 'max_age': None, 'send_wildcard': False, 'automatic_options': True, 'vary_header': True, 'resources': '/*', 'intercept_exceptions': True, 'always_send': True}
 [2025-05-26 18:33:59 +0800] - (sanic.access)[INFO][127.0.0.1:51688]: GET http://127.0.0.1:8000/  200 98
+[2025-05-26 18:37:48 +0800] [87525] [DEBUG] Sanic-CORS: Request to '/' matches CORS resource '/*'. Using options: {'origins': ['.*'], 'methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'allow_headers': ['.*'], 'expose_headers': None, 'supports_credentials': False, 'max_age': None, 'send_wildcard': False, 'automatic_options': True, 'vary_header': True, 'resources': '/*', 'intercept_exceptions': True, 'always_send': True}
+[2025-05-26 18:37:48 +0800] - (sanic.access)[INFO][127.0.0.1:52470]: GET http://127.0.0.1:8000/  200 98
+[2025-05-26 18:38:41 +0800] [87525] [DEBUG] Sanic-CORS: Request to '/' matches CORS resource '/*'. Using options: {'origins': ['.*'], 'methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'allow_headers': ['.*'], 'expose_headers': None, 'supports_credentials': False, 'max_age': None, 'send_wildcard': False, 'automatic_options': True, 'vary_header': True, 'resources': '/*', 'intercept_exceptions': True, 'always_send': True}
+[2025-05-26 18:38:41 +0800] - (sanic.access)[INFO][127.0.0.1:52924]: GET http://127.0.0.1:8000/  200 98
+[2025-05-26 18:39:02 +0800] [87499] [INFO] Received signal SIGTERM. Shutting down.
+[2025-05-26 18:39:02 +0800] [87499] [DEBUG] [34mTerminating a process: [1m[38;2;255;13;104mSanic-Server-0-0 [34m[87525][0m
+[2025-05-26 18:39:02 +0800] [87525] [INFO] Stopping worker [87525]
+✅ 数据库连接已关闭
+[2025-05-26 18:39:02 +0800] [87525] [INFO] Worker complete [87525]
+[2025-05-26 18:39:02 +0800] [87499] [INFO] Server Stopped
+[2025-05-26 18:39:02 +0800] [87499] [DEBUG] Míngtiān jiàn

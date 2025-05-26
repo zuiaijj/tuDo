@@ -23,9 +23,12 @@ if __name__ == "__main__":
     print(f"🚀 启动 TuDo 服务器...")
     print(f"📍 地址: http://{settings.HOST}:{settings.PORT}")
     print(f"🔧 调试模式: {settings.DEBUG}")
+    print(f"🔥 自动重载: {settings.AUTO_RELOAD}")
     
     app.run(
         host=settings.HOST,
         port=settings.PORT,
-        debug=settings.DEBUG
+        debug=settings.DEBUG,
+        auto_reload=settings.AUTO_RELOAD,
+        reload_dir=settings.RELOAD_DIRS
     ) 
