@@ -39,8 +39,8 @@ pip install -r requirements.txt
 
 ### 方式一：前台启动（开发调试用）
 ```bash
-# 激活虚拟环境后
-python run.py
+# 激活虚拟环境后，直接执行（无需cd）
+python shell/run.py
 ```
 **特点：**
 - 可以看到实时日志输出
@@ -49,8 +49,8 @@ python run.py
 
 ### 方式二：后台启动（推荐）
 ```bash
-# 激活虚拟环境后
-nohup python run.py > server.log 2>&1 &
+# 激活虚拟环境后，直接执行（无需cd）
+nohup python shell/run.py > server.log 2>&1 &
 ```
 **特点：**
 - 服务器在后台运行
@@ -86,7 +86,7 @@ lsof -i :8000
 ps aux | grep python | grep -v grep
 
 # 查看特定的服务器进程
-ps aux | grep "python run.py"
+ps aux | grep "run.py"
 ```
 
 ### 3. 查看服务器日志
@@ -187,7 +187,7 @@ curl http://127.0.0.1:8000/
 ### 方式二：通过进程名称
 ```bash
 # 通过进程名称关闭
-pkill -f "python run.py"
+pkill -f "run.py"
 ```
 
 ### 方式三：强制关闭（紧急情况）
@@ -196,7 +196,7 @@ pkill -f "python run.py"
 kill -9 <PID>
 
 # 或者
-pkill -9 -f "python run.py"
+pkill -9 -f "run.py"
 ```
 
 **⚠️ 注意：**
@@ -215,11 +215,11 @@ pkill -9 -f "python run.py"
 | 检查 Python 版本 | `python --version` | 确保版本 ≥ 3.7 |
 | 安装依赖 | `pip install -r requirements.txt` | 安装项目依赖包 |
 | **服务器启动** |
-| 前台启动 | `python run.py` | 开发调试用，Ctrl+C 停止 |
-| 后台启动 | `nohup python run.py > server.log 2>&1 &` | 生产环境用 |
+| 前台启动 | `python shell/run.py` | 开发调试用，Ctrl+C 停止 |
+| 后台启动 | `nohup python shell/run.py > server.log 2>&1 &` | 生产环境用 |
 | **状态检查** |
 | 查看端口占用 | `lsof -i :8000` | 检查服务器是否运行 |
-| 查看进程 | `ps aux \| grep "python run.py"` | 查看服务器进程 |
+| 查看进程 | `ps aux \| grep "run.py"` | 查看服务器进程 |
 | 查看日志 | `tail -f server.log` | 实时查看日志 |
 | **API 测试** |
 | 基础测试 | `curl http://127.0.0.1:8000/` | 测试根路径 |
@@ -228,7 +228,7 @@ pkill -9 -f "python run.py"
 | 格式化输出 | `curl -s http://127.0.0.1:8000/ \| python -m json.tool` | 美化 JSON |
 | **服务器关闭** |
 | 优雅关闭 | `kill -TERM <PID>` | 推荐方式 |
-| 按名称关闭 | `pkill -f "python run.py"` | 备用方式 |
+| 按名称关闭 | `pkill -f "run.py"` | 备用方式 |
 | 强制关闭 | `kill -9 <PID>` | 紧急情况 |
 
 ---
@@ -242,7 +242,7 @@ pkill -9 -f "python run.py"
 1. 检查虚拟环境是否激活：`source venv/bin/activate`
 2. 检查依赖是否安装：`pip install -r requirements.txt`
 3. 检查端口是否被占用：`lsof -i :8000`
-4. 查看详细错误信息：直接运行 `python run.py`
+4. 查看详细错误信息：直接运行 `python shell/run.py`
 
 ### 问题 2：无法连接到服务器
 **症状：** `curl: (7) Failed to connect to 127.0.0.1 port 8000`
@@ -274,8 +274,8 @@ pkill -9 -f "python run.py"
 **症状：** 启动时提示权限不足
 
 **解决方案：**
-1. 检查文件权限：`ls -la run.py`
-2. 添加执行权限：`chmod +x run.py`
+1. 检查文件权限：`ls -la shell/run.py`
+2. 添加执行权限：`chmod +x shell/run.py`
 3. 确保对项目目录有读写权限
 
 ---

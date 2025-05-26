@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 """
 TuDo 服务器启动脚本
+可以在任何目录下执行：python shell/run.py
 """
 import sys
 import os
 
-# 将当前目录添加到 Python 路径
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+# 获取脚本所在目录和server目录的绝对路径
+script_dir = os.path.dirname(os.path.abspath(__file__))
+server_dir = os.path.dirname(script_dir)  # 上一级目录（server目录）
+
+# 将server目录添加到 Python 路径
+sys.path.insert(0, server_dir)
+
+# 切换工作目录到server目录，确保相对路径正确
+os.chdir(server_dir)
 
 from app.main import app
 from app.config.settings import settings

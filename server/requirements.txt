@@ -9,7 +9,7 @@ aiosqlite>=0.16.0,<0.18.0
 # 数据验证和认证
 pydantic==2.5.0
 pyjwt==2.8.0
-passlib[bcrypt]==1.7.4
+cryptography>=3.4.8
 python-multipart==0.0.6
 
 # 环境变量管理

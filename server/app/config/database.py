@@ -8,7 +8,7 @@ TORTOISE_ORM = {
     },
     "apps": {
         "models": {
-            "models": ["app.models.user", "app.models.task"],
+            "models": ["app.models.user.user"],
             "default_connection": "default",
         },
     },
