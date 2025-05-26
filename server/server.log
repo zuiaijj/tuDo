@@ -1,0 +1,31 @@
+🚀 启动 TuDo 服务器...
+📍 地址: http://127.0.0.1:8000
+🔧 调试模式: True
+[2025-05-26 16:57:50 +0800] [60795] [DEBUG] 
+
+                 Sanic
+         Build Fast. Run Fast.
+
+
+[2025-05-26 16:57:50 +0800] [60795] [INFO] Sanic v23.12.1
+[2025-05-26 16:57:50 +0800] [60795] [INFO] Goin' Fast @ http://127.0.0.1:8000
+[2025-05-26 16:57:50 +0800] [60795] [INFO] app: TuDoServer
+[2025-05-26 16:57:50 +0800] [60795] [INFO] mode: debug, single worker
+[2025-05-26 16:57:50 +0800] [60795] [INFO] server: sanic, HTTP/1.1
+[2025-05-26 16:57:50 +0800] [60795] [INFO] python: 3.9.6
+[2025-05-26 16:57:50 +0800] [60795] [INFO] platform: macOS-14.1.1-arm64-arm-64bit
+[2025-05-26 16:57:50 +0800] [60795] [INFO] packages: sanic-routing==23.12.0
+[2025-05-26 16:57:50 +0800] [60795] [DEBUG] Creating multiprocessing context using 'spawn'
+[2025-05-26 16:57:50 +0800] [60795] [DEBUG] [34mStarting a process: [1m[38;2;255;13;104mSanic-Server-0-0[0m
+🔗 连接数据库: sqlite://db.sqlite3
+✅ 数据库表创建成功
+[2025-05-26 16:57:50 +0800] [60821] [DEBUG] [34mProcess ack: [1m[38;2;255;13;104mSanic-Server-0-0 [34m[60821][0m
+[2025-05-26 16:57:50 +0800] [60821] [INFO] Starting worker [60821]
+[2025-05-26 16:58:32 +0800] [60821] [DEBUG] Sanic-CORS: Request to '/health' matches CORS resource '/*'. Using options: {'origins': ['.*'], 'methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'allow_headers': ['.*'], 'expose_headers': None, 'supports_credentials': False, 'max_age': None, 'send_wildcard': False, 'automatic_options': True, 'vary_header': True, 'resources': '/*', 'intercept_exceptions': True, 'always_send': True}
+[2025-05-26 16:58:32 +0800] - (sanic.access)[INFO][127.0.0.1:65207]: GET http://127.0.0.1:8000/health  200 51
+[2025-05-26 17:00:03 +0800] [60821] [DEBUG] Sanic-CORS: Request to '/' matches CORS resource '/*'. Using options: {'origins': ['.*'], 'methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'allow_headers': ['.*'], 'expose_headers': None, 'supports_credentials': False, 'max_age': None, 'send_wildcard': False, 'automatic_options': True, 'vary_header': True, 'resources': '/*', 'intercept_exceptions': True, 'always_send': True}
+[2025-05-26 17:00:03 +0800] - (sanic.access)[INFO][127.0.0.1:65455]: GET http://127.0.0.1:8000/  200 98
+[2025-05-26 17:11:05 +0800] [60821] [DEBUG] Sanic-CORS: Request to '/' matches CORS resource '/*'. Using options: {'origins': ['.*'], 'methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'allow_headers': ['.*'], 'expose_headers': None, 'supports_credentials': False, 'max_age': None, 'send_wildcard': False, 'automatic_options': True, 'vary_header': True, 'resources': '/*', 'intercept_exceptions': True, 'always_send': True}
+[2025-05-26 17:11:05 +0800] - (sanic.access)[INFO][127.0.0.1:51288]: GET http://127.0.0.1:8000/  200 98
+[2025-05-26 17:11:10 +0800] [60821] [DEBUG] Sanic-CORS: Request to '/health' matches CORS resource '/*'. Using options: {'origins': ['.*'], 'methods': 'DELETE, GET, HEAD, OPTIONS, PATCH, POST, PUT', 'allow_headers': ['.*'], 'expose_headers': None, 'supports_credentials': False, 'max_age': None, 'send_wildcard': False, 'automatic_options': True, 'vary_header': True, 'resources': '/*', 'intercept_exceptions': True, 'always_send': True}
+[2025-05-26 17:11:10 +0800] - (sanic.access)[INFO][127.0.0.1:51311]: GET http://127.0.0.1:8000/health  200 51
