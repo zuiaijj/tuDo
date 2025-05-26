@@ -6,22 +6,24 @@ from app.config.settings import settings
 class JWTUtils:
     """JWT 工具类"""
     
+    # 令牌过期时间配置
+    ACCESS_TOKEN_EXPIRES = 3600  # 1小时
+    REFRESH_TOKEN_EXPIRES = 604800  # 7天
+    
     @staticmethod
-    def create_access_token(user_id: int, username: str) -> str:
+    def generate_access_token(user_id: int) -> str:
         """
-        创建访问令牌
+        生成访问令牌
         
         Args:
             user_id: 用户ID
-            username: 用户名
             
         Returns:
             str: JWT 访问令牌
         """
-        expire = datetime.utcnow() + timedelta(hours=settings.JWT_EXPIRE_HOURS)
+        expire = datetime.utcnow() + timedelta(seconds=JWTUtils.ACCESS_TOKEN_EXPIRES)
         payload = {
             "user_id": user_id,
-            "username": username,
             "exp": expire,
             "iat": datetime.utcnow(),
             "type": "access"
@@ -29,9 +31,9 @@ class JWTUtils:
         return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
     
     @staticmethod
-    def create_refresh_token(user_id: int) -> str:
+    def generate_refresh_token(user_id: int) -> str:
         """
-        创建刷新令牌（有效期更长）
+        生成刷新令牌
         
         Args:
             user_id: 用户ID
@@ -39,7 +41,7 @@ class JWTUtils:
         Returns:
             str: JWT 刷新令牌
         """
-        expire = datetime.utcnow() + timedelta(days=7)  # 刷新令牌7天有效
+        expire = datetime.utcnow() + timedelta(seconds=JWTUtils.REFRESH_TOKEN_EXPIRES)
         payload = {
             "user_id": user_id,
             "exp": expire,
@@ -76,7 +78,7 @@ class JWTUtils:
             raise JWTInvalidError("无效的令牌")
     
     @staticmethod
-    def verify_access_token(token: str) -> Optional[Dict[str, Any]]:
+    def verify_access_token(token: str) -> Dict[str, Any]:
         """
         验证访问令牌
         
@@ -84,24 +86,22 @@ class JWTUtils:
             token: JWT 访问令牌
             
         Returns:
-            Dict[str, Any]: 用户信息，如果令牌无效返回 None
+            Dict[str, Any]: 令牌载荷
+            
+        Raises:
+            JWTExpiredError: 令牌已过期
+            JWTInvalidError: 无效的令牌
         """
-        try:
-            payload = JWTUtils.decode_token(token)
-            
-            # 检查令牌类型
-            if payload.get("type") != "access":
-                return None
-            
-            return {
-                "user_id": payload.get("user_id"),
-                "username": payload.get("username")
-            }
-        except (JWTExpiredError, JWTInvalidError):
-            return None
+        payload = JWTUtils.decode_token(token)
+        
+        # 检查令牌类型
+        if payload.get("type") != "access":
+            raise JWTInvalidError("令牌类型错误")
+        
+        return payload
     
     @staticmethod
-    def verify_refresh_token(token: str) -> Optional[int]:
+    def verify_refresh_token(token: str) -> Dict[str, Any]:
         """
         验证刷新令牌
         
@@ -109,18 +109,19 @@ class JWTUtils:
             token: JWT 刷新令牌
             
         Returns:
-            int: 用户ID，如果令牌无效返回 None
+            Dict[str, Any]: 令牌载荷
+            
+        Raises:
+            JWTExpiredError: 令牌已过期
+            JWTInvalidError: 无效的令牌
         """
-        try:
-            payload = JWTUtils.decode_token(token)
-            
-            # 检查令牌类型
-            if payload.get("type") != "refresh":
-                return None
-            
-            return payload.get("user_id")
-        except (JWTExpiredError, JWTInvalidError):
-            return None
+        payload = JWTUtils.decode_token(token)
+        
+        # 检查令牌类型
+        if payload.get("type") != "refresh":
+            raise JWTInvalidError("令牌类型错误")
+        
+        return payload
     
     @staticmethod
     def extract_token_from_header(authorization_header: str) -> Optional[str]:
