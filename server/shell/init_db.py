@@ -43,7 +43,7 @@ async def init_database():
 
 if __name__ == "__main__":
     try:
-        asyncio.run(init_database())
+    asyncio.run(init_database()) 
         print("数据库初始化完成，程序退出")
     except Exception as e:
         print(f"数据库初始化失败: {e}")

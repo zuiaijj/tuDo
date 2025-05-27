@@ -2,30 +2,17 @@ from sanic import Blueprint, Request
 from sanic.response import json
 from pydantic import ValidationError
 from app.models.user.user import User
-from app.utils.validators import (
-    SendSmsRequest, LoginRequest, RegisterRequest, RefreshTokenRequest,
-    LoginResponse, RegisterResponse, SmsResponse, RefreshTokenResponse, ErrorResponse
-)
 from app.utils.jwt_utils import JWTUtils, JWTExpiredError, JWTInvalidError
 from app.services.sms_service import sms_service
 import traceback
 from datetime import datetime
 
+from app.views.user.validator.v_login import LoginRequest, SendSmsRequest, RefreshTokenRequest
+
 # 创建认证蓝图
-auth_bp = Blueprint("auth", url_prefix="/api/auth")
+auth_bp = Blueprint("login", url_prefix="/api/login")
 
 # JWT工具类（静态方法，无需实例化）
-
-def format_user_response(user: User) -> dict:
-    """格式化用户响应数据"""
-    return {
-        "id": user.id,
-        "nick_name": user.nick_name,
-        "phone_display": user.phone_display,
-        "is_active": user.is_active,
-        "created_at": user.created_at.isoformat(),
-        "updated_at": user.updated_at.isoformat()
-    }
 
 @auth_bp.post("/send-sms")
 async def send_sms_code(request: Request):
@@ -34,7 +21,7 @@ async def send_sms_code(request: Request):
     
     请求体:
     {
-        "phone": "13800138000"
+        "phone": "加密后的手机号"
     }
     """
     try:
@@ -135,7 +122,7 @@ async def login(request: Request):
         
         return json({
             "message": "登录成功",
-            "user": format_user_response(user),
+            "user": user.to_dict(),
             "access_token": access_token,
             "refresh_token": refresh_token,
             "token_type": "Bearer",
@@ -144,76 +131,6 @@ async def login(request: Request):
         
     except Exception as e:
         print(f"用户登录错误: {e}")
-        print(traceback.format_exc())
-        return json({
-            "error": "INTERNAL_ERROR",
-            "message": "服务器内部错误"
-        }, status=500)
-
-@auth_bp.post("/register")
-async def register(request: Request):
-    """
-    用户注册
-    
-    请求体:
-    {
-        "phone": "13800138000",
-        "sms_code": "1234",
-        "nick_name": "用户昵称"
-    }
-    """
-    try:
-        # 验证请求数据
-        try:
-            data = RegisterRequest(**request.json)
-        except ValidationError as e:
-            return json({
-                "error": "VALIDATION_ERROR",
-                "message": "请求数据格式错误",
-                "details": str(e)
-            }, status=400)
-        
-        # 验证短信验证码
-        verify_result = sms_service.verify_sms_code(data.phone, data.sms_code)
-        
-        if not verify_result["success"]:
-            return json({
-                "error": verify_result.get("error_code", "SMS_VERIFY_FAILED"),
-                "message": verify_result["message"]
-            }, status=400)
-        
-        # 检查用户是否已存在
-        existing_user = await User.get_user_by_phone(data.phone)
-        if existing_user:
-            return json({
-                "error": "USER_EXISTS",
-                "message": "该手机号已注册，请直接登录"
-            }, status=409)
-        
-        # 创建新用户
-        try:
-            user = await User.create_user(data.nick_name, data.phone)
-        except ValueError as e:
-            return json({
-                "error": "USER_CREATE_FAILED",
-                "message": str(e)
-            }, status=400)
-        
-        # 生成JWT令牌
-        access_token = JWTUtils.generate_access_token(user.id)
-        refresh_token = JWTUtils.generate_refresh_token(user.id)
-        
-        return json({
-            "message": "注册成功",
-            "user": format_user_response(user),
-            "access_token": access_token,
-            "refresh_token": refresh_token,
-            "token_type": "Bearer",
-            "expires_in": JWTUtils.ACCESS_TOKEN_EXPIRES
-        }, status=201)
-        
-    except Exception as e:
-        print(f"用户注册错误: {e}")
         print(traceback.format_exc())
         return json({
             "error": "INTERNAL_ERROR",
@@ -327,7 +244,7 @@ async def get_current_user(request: Request):
         
         return json({
             "message": "获取用户信息成功",
-            "user": format_user_response(user)
+            "user": user.to_dict(),
         }, status=200)
         
     except Exception as e:

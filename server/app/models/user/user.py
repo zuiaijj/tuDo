@@ -1,64 +1,8 @@
 from tortoise.models import Model
 from tortoise import fields
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives import padding
-from cryptography.hazmat.backends import default_backend
 from typing import Optional
-import os
-import base64
-import hashlib
+from ...utils.crypto_utils import CryptoUtils, PhoneCrypto
 
-# 手机号加密密钥（用户指定的密钥）
-PHONE_ENCRYPTION_KEY = os.getenv('PHONE_ENCRYPTION_KEY', 'UVsSl962H2B5I1ET')
-
-# 确保密钥长度为32字节（AES-256）
-def get_encryption_key() -> bytes:
-    """获取32字节的加密密钥"""
-    key = PHONE_ENCRYPTION_KEY.encode('utf-8')
-    if len(key) < 32:
-        # 如果密钥不足32字节，用0填充
-        key = key + b'\0' * (32 - len(key))
-    elif len(key) > 32:
-        # 如果密钥超过32字节，截取前32字节
-        key = key[:32]
-    return key
-
-# AES加密解密函数
-def encrypt_phone_aes(phone: str) -> str:
-    """使用AES加密手机号（确定性加密）"""
-    # 使用固定的IV来确保相同输入产生相同输出
-    iv = hashlib.md5(phone.encode()).digest()  # 16字节IV
-    
-    # 创建加密器
-    cipher = Cipher(
-        algorithms.AES(get_encryption_key()),
-        modes.CBC(iv),
-        backend=default_backend()
-    )
-    encryptor = cipher.encryptor()
-    
-    # 填充数据到16字节的倍数
-    padder = padding.PKCS7(128).padder()
-    padded_data = padder.update(phone.encode()) + padder.finalize()
-    
-    # 加密
-    encrypted = encryptor.update(padded_data) + encryptor.finalize()
-    
-    # 返回base64编码的结果
-    return base64.b64encode(encrypted).decode('utf-8')
-
-def decrypt_phone_aes(encrypted_phone: str) -> str:
-    """使用AES解密手机号"""
-    try:
-        # 解码base64
-        encrypted_data = base64.b64decode(encrypted_phone.encode('utf-8'))
-        
-        # 我们需要原始手机号来生成IV，但这里我们无法获得
-        # 所以我们需要存储IV或者使用其他方法
-        # 为了简化，我们返回一个占位符
-        return "***已加密***"
-    except Exception:
-        return "***解密失败***"
 
 class User(Model):
     """
@@ -67,16 +11,16 @@ class User(Model):
     字段说明：
     - id: 主键，自动递增
     - nick_name: 用户昵称
-    - phone_hash: 手机号AES加密哈希（用于查找和验证）
+    - phone_hash: 手机号RSA加密哈希（用于查找和验证）
     - phone_last_four: 手机号后四位（用于显示）
     - is_active: 是否激活，默认为 True
     - created_at: 创建时间，自动设置
     - updated_at: 更新时间，自动更新
     
     加密说明：
-    - 使用AES-256-CBC加密手机号
-    - 加密密钥: UVsSl962H2B5I1ET
-    - 使用手机号MD5作为IV确保确定性加密
+    - 使用RSA-2048-OAEP加密手机号
+    - 公钥用于加密，私钥用于解密
+    - 使用SHA-256哈希算法
     - 测试验证码: 1234
     """
     
@@ -99,7 +43,7 @@ class User(Model):
     @classmethod
     def encrypt_phone(cls, phone: str) -> str:
         """
-        加密手机号（使用AES对称加密）
+        加密手机号（使用RSA非对称加密）
         
         Args:
             phone: 明文手机号
@@ -107,45 +51,20 @@ class User(Model):
         Returns:
             str: 加密后的手机号
         """
-        return encrypt_phone_aes(phone)
+        return PhoneCrypto.encrypt(phone)
     
     @classmethod
-    def decrypt_phone(cls, encrypted_phone: str, original_phone: str) -> str:
+    def decrypt_phone(cls, encrypted_phone: str) -> str:
         """
-        解密手机号（需要原始手机号来生成IV）
+        解密手机号（使用RSA私钥解密）
         
         Args:
             encrypted_phone: 加密后的手机号
-            original_phone: 原始手机号（用于生成IV）
             
         Returns:
             str: 明文手机号
         """
-        try:
-            # 使用原始手机号生成相同的IV
-            iv = hashlib.md5(original_phone.encode()).digest()
-            
-            # 解码base64
-            encrypted_data = base64.b64decode(encrypted_phone.encode('utf-8'))
-            
-            # 创建解密器
-            cipher = Cipher(
-                algorithms.AES(get_encryption_key()),
-                modes.CBC(iv),
-                backend=default_backend()
-            )
-            decryptor = cipher.decryptor()
-            
-            # 解密
-            padded_data = decryptor.update(encrypted_data) + decryptor.finalize()
-            
-            # 去除填充
-            unpadder = padding.PKCS7(128).unpadder()
-            data = unpadder.update(padded_data) + unpadder.finalize()
-            
-            return data.decode('utf-8')
-        except Exception:
-            return "***解密失败***"
+        return PhoneCrypto.decrypt(encrypted_phone)
     
     @property
     def phone_display(self) -> str:
@@ -155,7 +74,7 @@ class User(Model):
         Returns:
             str: 手机号显示格式
         """
-        return f"****{self.phone_last_four}"
+        return PhoneCrypto.get_display_phone(self.phone_last_four)
     
     @classmethod
     def verify_sms_code(cls, code: str) -> bool:
@@ -193,7 +112,7 @@ class User(Model):
             raise ValueError(f"手机号 '{phone}' 已被注册")
         
         # 获取手机号后四位
-        phone_last_four = phone[-4:] if len(phone) >= 4 else phone
+        phone_last_four = PhoneCrypto.get_last_four_digits(phone)
         
         # 创建用户
         user = await cls.create(

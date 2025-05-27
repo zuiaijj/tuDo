@@ -3,7 +3,7 @@ from sanic.response import json
 from sanic_cors import CORS
 from app.config.database import init_db, close_db
 from app.config.settings import settings
-from app.views.auth import auth_bp
+from app.views.user.login import auth_bp
 
 # 创建 Sanic 应用
 app = Sanic("TuDoServer")
