@@ -25,14 +25,23 @@ class BaseRequest(BaseModel):
 class UidSidValidator(BaseRequest):
     """用户ID和会话ID组合校验器"""
     uid: int = Field(..., description="用户ID")
-    sid: str = Field(..., description="会话ID")
+    access_token: str = Field(..., description="访问令牌")
     
     @validator('uid')
     def validate_uid(cls, v):
         """校验用户ID"""
         return v
     
-    @validator('sid')
-    def validate_sid(cls, v):
-        """校验会话ID"""
+    @validator('access_token')
+    def validate_access_token(cls, v):
+        """校验访问令牌"""
+        return v
+    
+class UidValidator(BaseRequest):
+    """用户ID校验器"""
+    uid: int = Field(..., description="用户ID")
+    
+    @validator('uid')
+    def validate_uid(cls, v):
+        """校验用户ID"""
         return v

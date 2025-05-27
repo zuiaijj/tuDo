@@ -7,6 +7,7 @@ from app.services.sms_service import sms_service
 import traceback
 from datetime import datetime
 
+from app.utils.validators import UidSidValidator
 from app.views.user.validator.v_login import LoginRequest, SendSmsRequest, RefreshTokenRequest
 
 # 创建认证蓝图
@@ -77,7 +78,7 @@ async def login(request: Request):
     
     请求体:
     {
-        "phone": "13800138000",
+        "phone": "加密后的手机号",
         "sms_code": "1234"
     }
     """
@@ -105,11 +106,7 @@ async def login(request: Request):
         user = await User.get_user_by_phone(data.phone)
         
         if not user:
-            return json({
-                "error": "USER_NOT_FOUND",
-                "message": "用户不存在，请先注册"
-            }, status=404)
-        
+            user = await User.create_user(data.phone)
         if not user.is_active:
             return json({
                 "error": "USER_INACTIVE",
@@ -117,8 +114,9 @@ async def login(request: Request):
             }, status=403)
         
         # 生成JWT令牌
-        access_token = JWTUtils.generate_access_token(user.id)
-        refresh_token = JWTUtils.generate_refresh_token(user.id)
+        access_token = JWTUtils.generate_access_token(user.uid)
+        refresh_token = JWTUtils.generate_refresh_token(user.uid)
+        await User.update_profile(user.uid, "access_token", access_token)
         
         return json({
             "message": "登录成功",
@@ -184,6 +182,7 @@ async def refresh_token(request: Request):
         # 生成新的令牌
         new_access_token = JWTUtils.generate_access_token(user_id)
         new_refresh_token = JWTUtils.generate_refresh_token(user_id)
+        await User.update_profile(user_id, "access_token", new_access_token)
         
         return json({
             "message": "令牌刷新成功",
@@ -209,30 +208,10 @@ async def get_current_user(request: Request):
     需要在请求头中包含: Authorization: Bearer <access_token>
     """
     try:
-        # 从请求头获取令牌
-        auth_header = request.headers.get("Authorization")
-        if not auth_header or not auth_header.startswith("Bearer "):
-            return json({
-                "error": "TOKEN_MISSING",
-                "message": "缺少访问令牌"
-            }, status=401)
-        
-        access_token = auth_header.split(" ")[1]
-        
-        # 验证访问令牌
-        try:
-            payload = JWTUtils.verify_access_token(access_token)
-            user_id: int = payload["user_id"]
-        except JWTExpiredError:
-            return json({
-                "error": "TOKEN_EXPIRED",
-                "message": "访问令牌已过期"
-            }, status=401)
-        except JWTInvalidError:
-            return json({
-                "error": "TOKEN_INVALID",
-                "message": "访问令牌无效"
-            }, status=401)
+        # 从查询参数获取令牌和用户ID
+        auth_header = UidSidValidator(**request.json)
+        access_token = auth_header.access_token
+        user_id = auth_header.uid
         
         # 获取用户信息
         user = await User.get(id=user_id)
@@ -240,6 +219,11 @@ async def get_current_user(request: Request):
             return json({
                 "error": "USER_INVALID",
                 "message": "用户不存在或已被禁用"
+            }, status=401)
+        if (access_token != user.access_token):
+            return json({
+                "error": "TOKEN_INVALID",
+                "message": "访问令牌过期，请重新登录"
             }, status=401)
         
         return json({

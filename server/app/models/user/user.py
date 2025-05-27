@@ -1,3 +1,4 @@
+from datetime import datetime
 from tortoise.models import Model
 from tortoise import fields
 from typing import Optional
@@ -9,8 +10,9 @@ class User(Model):
     用户模型 - 支持手机号验证码登录
     
     字段说明：
-    - id: 主键，自动递增
+    - uid: 用户ID
     - nick_name: 用户昵称
+    - access_token: 用户访问令牌
     - phone_hash: 手机号RSA加密哈希（用于查找和验证）
     - phone_last_four: 手机号后四位（用于显示）
     - is_active: 是否激活，默认为 True
@@ -24,8 +26,9 @@ class User(Model):
     - 测试验证码: 1234
     """
     
-    id = fields.IntField(pk=True, description="用户ID")
+    uid = fields.IntField(pk=True, description="用户ID")
     nick_name = fields.CharField(max_length=50, description="用户昵称")
+    access_token = fields.CharField(max_length=255, description="用户访问令牌")
     phone_hash = fields.CharField(max_length=255, unique=True, description="手机号哈希（用于查找）")
     phone_last_four = fields.CharField(max_length=4, description="手机号后四位（用于显示）")
     is_active = fields.BooleanField(default=True, description="是否激活")
@@ -76,28 +79,16 @@ class User(Model):
         """
         return PhoneCrypto.get_display_phone(self.phone_last_four)
     
-    @classmethod
-    def verify_sms_code(cls, code: str) -> bool:
-        """
-        验证短信验证码（测试阶段固定为"1234"）
-        
-        Args:
-            code: 验证码
-            
-        Returns:
-            bool: 验证码是否正确
-        """
-        return code == "1234"
     
     @classmethod
-    async def create_user(cls, nick_name: str, phone: str) -> "User":
+    async def create_user(cls, phone: str) -> "User":
         """
         创建新用户
         
         Args:
             nick_name: 用户昵称
             phone: 手机号
-            
+            access_token: 用户访问令牌
         Returns:
             User: 创建的用户对象
             
@@ -116,35 +107,22 @@ class User(Model):
         
         # 创建用户
         user = await cls.create(
-            nick_name=nick_name,
             phone_hash=phone_hash,
-            phone_last_four=phone_last_four
+            phone_last_four=phone_last_four,
+            is_active=True,
+            created_at=datetime.now(),
         )
         
         return user
     
     @classmethod
-    async def authenticate_by_phone(cls, phone: str, sms_code: str) -> Optional["User"]:
+    async def update_profile(cls, user_id: int, profile_key: str, profile_value: str) -> None:
         """
-        通过手机号和验证码认证用户
-        
-        Args:
-            phone: 手机号
-            sms_code: 短信验证码
-            
-        Returns:
-            User: 认证成功返回用户对象，失败返回 None
+        更新用户信息
         """
-        # 验证短信验证码
-        if not cls.verify_sms_code(sms_code):
-            return None
-        
-        # 加密手机号进行查找
-        phone_hash = cls.encrypt_phone(phone)
-        user = await cls.get_or_none(phone_hash=phone_hash, is_active=True)
-        
-        return user
-    
+        target_field = f"${profile_key}"
+        await cls.filter(id=user_id).update(**{target_field: profile_value})
+
     @classmethod
     async def get_user_by_phone(cls, phone: str) -> Optional["User"]:
         """
@@ -170,7 +148,7 @@ class User(Model):
             dict: 用户信息字典
         """
         data = {
-            "id": self.id,
+            "uid": self.uid,
             "nick_name": self.nick_name,
             "is_active": self.is_active,
             "created_at": self.created_at.isoformat() if self.created_at else None,
@@ -183,7 +161,7 @@ class User(Model):
         return data
     
     def __str__(self) -> str:
-        return f"User(id={self.id}, nick_name={self.nick_name})"
+        return f"User(uid={self.uid}, nick_name={self.nick_name})"
     
     def __repr__(self) -> str:
         return f"<User {self.nick_name}>"

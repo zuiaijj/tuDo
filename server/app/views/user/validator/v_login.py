@@ -3,9 +3,9 @@ from typing import Optional
 import re
 
 from app.utils.crypto_utils import PhoneCrypto
-from app.utils.validators import UidSidValidator
+from app.utils.validators import UidSidValidator, UidValidator
 
-class SendSmsRequest(UidSidValidator):
+class SendSmsRequest(BaseModel):
     """发送短信验证码请求"""
     phone: str = Field(..., description="手机号")
     
@@ -20,7 +20,7 @@ class SendSmsRequest(UidSidValidator):
         
         return phone
 
-class LoginRequest(UidSidValidator):
+class LoginRequest(BaseModel):
     """手机号登录请求"""
     phone: str = Field(..., description="手机号")
     sms_code: str = Field(..., description="短信验证码")
@@ -46,7 +46,7 @@ class LoginRequest(UidSidValidator):
         code = v.strip()
         return code
     
-class RefreshTokenRequest(UidSidValidator):
+class RefreshTokenRequest(UidValidator):
     """刷新令牌请求"""
     refresh_token: str = Field(..., description="刷新令牌")
     
@@ -56,42 +56,3 @@ class RefreshTokenRequest(UidSidValidator):
         if not v:
             raise ValueError('刷新令牌不能为空')
         return v.strip()
-
-# 响应模型
-class UserResponse(BaseModel):
-    """用户信息响应"""
-    id: int
-    nick_name: str
-    phone_display: str
-    is_active: bool
-    created_at: str
-    updated_at: str
-
-class LoginResponse(BaseModel):
-    """登录响应"""
-    message: str
-    user: UserResponse
-    access_token: str
-    refresh_token: str
-    token_type: str = "Bearer"
-    expires_in: int
-
-class SmsResponse(BaseModel):
-    """短信发送响应"""
-    message: str
-    phone_display: str
-    expires_in: int = 300  # 5分钟过期
-
-class RefreshTokenResponse(BaseModel):
-    """刷新令牌响应"""
-    message: str
-    access_token: str
-    refresh_token: str
-    token_type: str = "Bearer"
-    expires_in: int
-
-class ErrorResponse(BaseModel):
-    """错误响应"""
-    error: str
-    message: str
-    details: Optional[str] = None 
