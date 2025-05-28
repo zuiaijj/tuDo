@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tudo/common/theme/theme_manager.dart';
+import 'package:tudo/tool/get_tool.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -39,7 +40,7 @@ class _SplashPageState extends State<SplashPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorScheme(context).surface,
+      backgroundColor: colorScheme.surface,
       body: Center(
         child: FadeTransition(
           opacity: _animation,

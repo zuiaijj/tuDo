@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tudo/pages/login/login_enter.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/pages/root/splash.dart';
 
@@ -16,24 +17,22 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GetBuilder<RootPageController>(
-        init: RootPageController(),
-        builder: (controller) {
-          return Stack(
-            children: [
-              // 首页大厅
-              if (controller.isLoggedIn) Container(),
+    return GetBuilder<RootPageController>(
+      init: RootPageController(),
+      builder: (controller) {
+        return Stack(
+          children: [
+            // 首页大厅
+            if (controller.isLoggedIn) Container(),
 
-              // 登录页面
-              if (!controller.isLoggedIn) Container(),
+            // 登录页面
+            if (!controller.isLoggedIn) const LoginEnter(),
 
-              // 加载页面
-              if (controller.isLoading) const SplashPage(),
-            ],
-          );
-        },
-      ),
+            // 加载页面
+            if (controller.isLoading) const SplashPage(),
+          ],
+        );
+      },
     );
   }
 }

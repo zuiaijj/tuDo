@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:tudo/common/const/sp_const.dart';
+import 'package:tudo/tool/get_tool.dart';
 import 'package:tudo/tool/sp_tool.dart';
 import '../platform/platform_features.dart';
 
 void setTheme(ThemeStatus themeStatus) async {
   await SpTool.putInt(SpConst.themeModel, themeStatus.index);
-  initTheme(Get.context!);
+  initTheme();
 }
 
 /// 初始化主题
-void initTheme(BuildContext context) async {
+void initTheme() async {
   // 平台的模式
-  Brightness platformBrightness = MediaQuery.of(context).platformBrightness;
+  Brightness platformBrightness =
+      MediaQuery.of(Get.context!).platformBrightness;
   // 本地模式
   int? themeModel = SpTool.getInt(SpConst.themeModel);
   // TabbarController tabbarController = Get.put(TabbarController());
@@ -202,14 +203,14 @@ class ThemeManager {
   static _getTextTheme(ColorScheme colorScheme) {
     return TextTheme(
       displayLarge: TextStyle(
-          fontSize: 40.sp,
+          fontSize: 40,
           color: colorScheme.primary,
           fontWeight: FontWeight.w800,
           letterSpacing: 1.5,
           height: 1.5,
           fontFamily: "SourceHanSerifCN"),
       displayMedium: TextStyle(
-        fontSize: 34.sp,
+        fontSize: 34,
         color: colorScheme.primary,
         fontWeight: FontWeight.w800,
         letterSpacing: 1.5,
@@ -217,53 +218,53 @@ class ThemeManager {
         fontFamily: "SourceHanSerifCN",
       ),
       displaySmall: TextStyle(
-          fontSize: 32.sp,
+          fontSize: 32,
           color: colorScheme.primary,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.5,
           height: 1.5),
       headlineMedium: TextStyle(
-          fontSize: 28.sp,
+          fontSize: 28,
           color: colorScheme.primary,
           fontWeight: FontWeight.w700,
           letterSpacing: 1.5,
           height: 1.5),
       headlineSmall: TextStyle(
-          fontSize: 24.sp,
+          fontSize: 24,
           color: colorScheme.primary,
-          fontWeight: FontWeight.w800,
+          fontWeight: FontWeight.w700,
           letterSpacing: 1.2,
           height: 1.3),
       titleLarge: TextStyle(
-          fontSize: 20.sp,
+          fontSize: 20,
           color: colorScheme.primary,
           fontWeight: FontWeight.w600,
           letterSpacing: 1,
           height: 1.2),
       titleMedium: TextStyle(
-          fontSize: 17.sp,
+          fontSize: 17,
           color: colorScheme.primary,
           fontWeight: FontWeight.w600,
           letterSpacing: 1,
           height: 1.2),
       titleSmall: TextStyle(
-          fontSize: 16.sp,
+          fontSize: 16,
           color: colorScheme.primary,
           fontWeight: FontWeight.w600,
           height: 1.2),
       bodyLarge: TextStyle(
-          fontSize: 16.sp,
+          fontSize: 16,
           color: colorScheme.primary,
           fontWeight: FontWeight.normal,
           height: 1.5),
       bodyMedium: TextStyle(
-          fontSize: 14.sp,
+          fontSize: 14,
           color: colorScheme.primary,
           fontWeight: FontWeight.w400,
           letterSpacing: 1,
           height: 1.2),
       bodySmall: TextStyle(
-          fontSize: 12.sp,
+          fontSize: 12,
           color: colorScheme.tertiary,
           fontWeight: FontWeight.w400,
           letterSpacing: 1,
@@ -295,7 +296,7 @@ class ThemeManager {
         color: colorSchemeBlack.primary,
       ),
       textTheme: _getTextTheme(colorSchemeBlack),
-      brightness: colorSchemeWhite.brightness,
+      brightness: colorSchemeBlack.brightness,
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -351,19 +352,10 @@ class ThemeManager {
   }
 
   static Image getThemeLogoTran(BuildContext context, {double size = 240}) {
-    final isDark = isDarkMode(context);
-    return isDark
+    return isDarkMode
         ? Image.asset('assets/base/logo_black_tran.png',
             width: size, height: size)
         : Image.asset('assets/base/logo_white_tran.png',
             width: size, height: size);
   }
 }
-
-bool isDarkMode(BuildContext context) {
-  final brightness = Theme.of(context).brightness;
-  return brightness == Brightness.dark;
-}
-
-ThemeData theme(BuildContext context) => Theme.of(context);
-ColorScheme colorScheme(BuildContext context) => theme(context).colorScheme;
