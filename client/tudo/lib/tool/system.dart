@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -14,6 +15,31 @@ class SystemInfo {
 
   static PackageInfo? packageData;
   static Map<String, dynamic> deviceData = {};
+
+  /// 获取当前主题对应的状态栏样式
+  static SystemUiOverlayStyle getStatusBarStyle({bool? isDark}) {
+    final bool darkMode = isDark ??
+        (Get.context != null &&
+            Theme.of(Get.context!).brightness == Brightness.dark);
+
+    return SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // 状态栏背景透明
+      statusBarIconBrightness:
+          darkMode ? Brightness.light : Brightness.dark, // 状态栏图标颜色
+      statusBarBrightness:
+          darkMode ? Brightness.dark : Brightness.light, // iOS状态栏亮度
+      systemNavigationBarColor: darkMode
+          ? const Color.fromARGB(255, 19, 19, 19)
+          : const Color.fromARGB(255, 250, 250, 250), // 导航栏颜色
+      systemNavigationBarIconBrightness:
+          darkMode ? Brightness.light : Brightness.dark, // 导航栏图标颜色
+    );
+  }
+
+  /// 设置状态栏样式
+  static void setStatusBarStyle({bool? isDark}) {
+    SystemChrome.setSystemUIOverlayStyle(getStatusBarStyle(isDark: isDark));
+  }
 
   /// 拷贝文本内容到剪切板
   static bool copyToClipboard(String text, {String? copySuccessText}) {

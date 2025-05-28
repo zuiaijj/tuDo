@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tudo/common/const/sp_const.dart';
 import 'package:tudo/tool/get_tool.dart';
 import 'package:tudo/tool/sp_tool.dart';
+import 'package:tudo/tool/system.dart';
 import '../platform/platform_features.dart';
 
 void setTheme(ThemeStatus themeStatus) async {
@@ -19,6 +21,9 @@ void initTheme() async {
   // 本地模式
   int? themeModel = SpTool.getInt(SpConst.themeModel);
   // TabbarController tabbarController = Get.put(TabbarController());
+
+  bool isDarkMode = false;
+
   switch (themeModel) {
     case 0:
 
@@ -26,9 +31,11 @@ void initTheme() async {
       // ignore: use_build_context_synchronously
       if (platformBrightness == Brightness.dark) {
         Get.changeThemeMode(ThemeMode.dark);
+        isDarkMode = true;
         // tabbarController.themeModelInt.value = 1;
       } else {
         Get.changeThemeMode(ThemeMode.light);
+        isDarkMode = false;
         // tabbarController.themeModelInt.value = 0;
       }
       break;
@@ -36,12 +43,14 @@ void initTheme() async {
 
       /// 深色模式
       Get.changeThemeMode(ThemeMode.dark);
+      isDarkMode = true;
       // tabbarController.themeModelInt.value = 1;
       break;
     case 2:
 
       /// 浅色模式
       Get.changeThemeMode(ThemeMode.light);
+      isDarkMode = false;
       // tabbarController.themeModelInt.value = 0;
       break;
     default:
@@ -50,12 +59,23 @@ void initTheme() async {
       // ignore: use_build_context_synchronously
       if (platformBrightness == Brightness.dark) {
         Get.changeThemeMode(ThemeMode.dark);
+        isDarkMode = true;
         // tabbarController.themeModelInt.value = 1;
       } else {
         Get.changeThemeMode(ThemeMode.light);
+        isDarkMode = false;
         // tabbarController.themeModelInt.value = 0;
       }
   }
+
+  // 根据主题模式设置状态栏样式
+  _updateSystemUIOverlayStyle(isDarkMode);
+}
+
+/// 更新系统UI覆盖样式（状态栏和导航栏）
+void _updateSystemUIOverlayStyle(bool isDarkMode) {
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemInfo.getStatusBarStyle(isDark: isDarkMode));
 }
 
 enum ThemeStatus {
@@ -273,11 +293,24 @@ class ThemeManager {
   }
 
   static _getAppBarTheme(ColorScheme colorScheme) {
+    final isDark = colorScheme.brightness == Brightness.dark;
     return AppBarTheme(
       color: colorScheme.surface,
       elevation: 0,
       iconTheme: IconThemeData(
         color: colorScheme.primary,
+      ),
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent, // 状态栏背景透明
+        statusBarIconBrightness:
+            isDark ? Brightness.light : Brightness.dark, // 状态栏图标颜色
+        statusBarBrightness:
+            isDark ? Brightness.dark : Brightness.light, // iOS状态栏亮度
+        systemNavigationBarColor: isDark
+            ? const Color.fromARGB(255, 19, 19, 19)
+            : const Color.fromARGB(255, 250, 250, 250), // 导航栏颜色
+        systemNavigationBarIconBrightness:
+            isDark ? Brightness.light : Brightness.dark, // 导航栏图标颜色
       ),
     );
   }
