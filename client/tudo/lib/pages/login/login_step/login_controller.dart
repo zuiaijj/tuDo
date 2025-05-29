@@ -6,7 +6,6 @@ import 'package:tudo/pages/login/login_step/country_code/country_code_model.dart
 import 'package:tudo/pages/login/login_step/login_helper.dart';
 import 'package:tudo/pages/login/net/login_net.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
-import 'package:tudo/tool/intl_tool.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/common/widget/base_widget.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
-import 'package:tudo/tool/intl_tool.dart';
 import 'package:tudo/tool/get_tool.dart';
 
 class LoginEnter extends StatelessWidget {

@@ -139,15 +139,16 @@ class _CountryPickPageState extends State<CountryPickPage> {
                       return _susItem(all[index]);
                     },
                     indexBarData: index,
-                    indexBarOptions: const IndexBarOptions(
+                    indexBarOptions: IndexBarOptions(
                       needRebuild: true,
                       hapticFeedback: true,
-                      selectTextStyle: TextStyle(
-                          fontSize: 12,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
+                      selectTextStyle: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurface,
+                      ),
                       selectItemDecoration: BoxDecoration(
-                          shape: BoxShape.circle, color: Color(0xFF333333)),
+                        shape: BoxShape.circle,
+                        color: colorScheme.surfaceContainerLow,
+                      ),
                       indexHintWidth: 96,
                       indexHintHeight: 97,
                     ),
@@ -177,7 +178,7 @@ class _CountryPickPageState extends State<CountryPickPage> {
               margin: EdgeInsets.only(left: 16.w, right: 16.w),
               decoration: BoxDecoration(
                   color: needTopLine
-                      ? colorScheme.outlineVariant
+                      ? colorScheme.surfaceContainerLow
                       : Colors.transparent),
             ),
             Expanded(
@@ -217,7 +218,9 @@ class _CountryPickPageState extends State<CountryPickPage> {
       sus = "common".tr;
     }
     return Container(
-      decoration: const BoxDecoration(color: Color(0xFFF3F3F3)),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerLow,
+      ),
       height: 24.h,
       width: screanWidth,
       padding: const EdgeInsets.only(left: 16.0),

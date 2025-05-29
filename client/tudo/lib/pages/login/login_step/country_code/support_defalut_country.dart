@@ -72,19 +72,20 @@ const List<Map<String, String>> countryCodes = [
     "dial_code": "+91",
     "index": "I",
   },
-  // {
-  //   "name": "China",
-  //   "code": "CN",
-  //   "dial_code": "+86",
-  //   "index": "C",
-  // },
+  {
+    "name": "China",
+    "code": "CN",
+    "dial_code": "+86",
+    "index": "C",
+  },
 ];
 
 /// 支持的国家字典
 const countryCodeLang = {
+  "CN": "China", // 中国
+  "US": ["United States of America", "USA"], // 美国
   "HK": "Hongkong", //中国香港市
   "TW": "Taiwan", //中国台湾省
-  "US": ["United States of America", "USA"], // 美国
   "TH": "Thailand", // 泰国
   "MY": "Malaysia", // 马来西亚
   "PH": "Philippines", //菲律宾
@@ -94,5 +95,4 @@ const countryCodeLang = {
   "BR": "Brazil", // 巴西
   "IN": "India", // 印度
   "GB": ["United Kingdom", "UK", "Great Britain"], // 英国
-  // "CN": "China", // 中国
 };
