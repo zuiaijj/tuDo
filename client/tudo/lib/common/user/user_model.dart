@@ -11,10 +11,6 @@ class UserModel {
   int gender;
   String phone;
   String avatar;
-  String frameUrl;
-  String birth;
-  int height;
-  String description;
   @JsonKey(includeFromJson: false, includeToJson: false)
   RxBool? isblock;
 
@@ -25,11 +21,7 @@ class UserModel {
         gender = 0,
         phone = '',
         avatar = '',
-        frameUrl = '',
-        birth = '',
-        height = 0,
-        isblock = false.obs,
-        description = '';
+        isblock = false.obs;
 
   UserModel(
       {required this.id,
@@ -38,10 +30,6 @@ class UserModel {
       required this.gender,
       required this.phone,
       required this.avatar,
-      required this.frameUrl,
-      required this.birth,
-      required this.height,
-      required this.description,
       this.isblock});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

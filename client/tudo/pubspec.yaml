@@ -41,6 +41,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   get: ^4.7.2
   icons_launcher: ^3.0.1
+  cached_network_image: ^3.4.1
   flutter_native_splash: ^2.4.4
   flutter_screenutil: ^5.9.3
   logger: ^2.5.0
@@ -53,6 +54,8 @@ dependencies:
   encrypt: ^5.0.0
   device_info_plus: ^9.0.0
   package_info_plus: ^8.3.0
+  scrollable_positioned_list: ^0.3.8
+  azlistview_plus: ^3.0.0
   
 dev_dependencies:
   flutter_test:
@@ -79,6 +82,7 @@ flutter:
     - assets/.env
     - assets/base/
     - assets/login/
+    - assets/flags/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

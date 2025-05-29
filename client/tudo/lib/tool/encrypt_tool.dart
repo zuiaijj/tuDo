@@ -16,10 +16,13 @@ const fileAes = "ZaiKF5LeBYQRsht=";
 
 /// 手机非对称加密 （秘钥在服务端）
 const phoneRsa = "-----BEGIN PUBLIC KEY-----\n"
-    "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDPGgMS0JDFLaR7HN7e+7fqixeT\n"
-    "Mkd0Z9JN0TRgJ8ii+77/UNl9rwZaiKF5LeBYQRshtPUGa1nOXDRNWJrzPybi4MCs\n"
-    "bUB2LVyzrjVInHbA4sj48b+4vxge9cTKx3j9WffcSPF2Cv2FhitIo7Kqevi4T2AW\n"
-    "Ncdx50NVVs1PK86N8wIDAQAB\n"
+    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArA0gSMGRY/w8kFZJSN9X\n"
+    "whQRuNT5SC9RiyWagtsQFCslplqeB5EjRKj8b9x7UOGDn9gYuNzP1Zt7QKS9rbOe\n"
+    "P1u8iyi9anPYpWXezUVoBS0KJlE5XEYUsyORoYRJBbfoFUmEg1FzNdySvZ5v0ls7\n"
+    "0QbyqXdUbwV0MbQsyK+ZFY7/W/2fTlt/1uD2tF8X3hpakk1FDrL7NLuH+55pZVGx\n"
+    "uyGs4qxThan1F0XtEgUwh/2IrUVvdINFifnGPPR86KHQhhkskcuEsyY7CRxSYF+F\n"
+    "mvRwf5C+iAxsOS7wGEQJZRzhWmLAPfT172WEtvgg0w7OAcgqHj06WmtQikjGltY+\n"
+    "ywIDAQAB\n"
     "-----END PUBLIC KEY-----";
 
 const toDigits = [

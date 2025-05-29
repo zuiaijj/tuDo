@@ -2,7 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/common/widget/base_widget.dart';
+import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/tool/intl_tool.dart';
 import 'package:tudo/tool/get_tool.dart';
 
@@ -59,7 +62,15 @@ class LoginEnter extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Btn(intlS.login_by_phone, () {}),
+        Btn(
+          "手机号登录",
+          onPressed: () {
+            if (Get.isRegistered<RootPageController>()) {
+              Get.find<RootPageController>().initAfterAgree();
+            }
+            UserManager.instance.toLoginStep();
+          },
+        ),
       ],
     );
   }
@@ -74,11 +85,11 @@ class LoginEnter extends StatelessWidget {
             style: textTheme.bodySmall?.copyWith(color: colorScheme.outline),
             children: [
               TextSpan(
-                text: intlS.by_signing_up,
+                text: "已阅读并同意",
               ),
               TextSpan(text: ' '),
               TextSpan(
-                text: intlS.privacy_policy,
+                text: "隐私政策",
                 style: TextStyle(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.w500,
@@ -89,9 +100,9 @@ class LoginEnter extends StatelessWidget {
                     //     needMeta: false);
                   },
               ),
-              TextSpan(text: intlS.and_no_trim),
+              TextSpan(text: "和"),
               TextSpan(
-                text: intlS.terms_service,
+                text: "服务条款",
                 style: TextStyle(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.w500,
