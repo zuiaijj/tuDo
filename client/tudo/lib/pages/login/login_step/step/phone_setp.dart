@@ -20,7 +20,7 @@ class PhoneStep extends StatefulWidget {
 
 class _PhoneStepState extends State<PhoneStep> {
   Rx<CountryCodeModel> countryCode = Rx<CountryCodeModel>(
-      CountryCodeModel(name: 'Hongkong', code: 'HK', dialCode: '+852'));
+      CountryCodeModel(name: 'China', code: 'CN', dialCode: '+86'));
 
   final FocusNode _focusNodePhone = FocusNode();
   final TextEditingController _phoneEditController = TextEditingController();
@@ -97,16 +97,13 @@ class _PhoneStepState extends State<PhoneStep> {
   }
 
   _buildCountryCodePicker() {
-    return SizedBox(
-      width: 80.w,
-      child: Obx(() {
-        return CountryCodePicker(
-          initialSelection: countryCode.value.code,
-          onInit: (value) {},
-          onChanged: onCountryCodeChanged,
-        );
-      }),
-    );
+    return Obx(() {
+      return CountryCodePicker(
+        initialSelection: countryCode.value.code,
+        onInit: (value) {},
+        onChanged: onCountryCodeChanged,
+      );
+    });
   }
 
   void onCountryCodeChanged(CountryCodeModel value) {

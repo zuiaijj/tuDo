@@ -10,6 +10,7 @@ import 'package:tudo/pages/login/login_step/country_code/country_code_info.dart'
 import 'package:tudo/pages/login/login_step/country_code/country_code_model.dart';
 import 'package:tudo/pages/login/login_step/country_code/country_pick_page.dart';
 import 'package:tudo/pages/login/login_step/country_code/support_defalut_country.dart';
+import 'package:tudo/tool/get_tool.dart';
 import 'package:tudo/tool/string_tool.dart';
 
 class CountryCodePicker extends StatefulWidget {
@@ -53,16 +54,15 @@ class CountryCodePickerState extends State<CountryCodePicker> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            buildFlagImage(selectedItem!),
-            const SizedBox(width: 10),
+            // buildFlagImage(selectedItem!),
+            // const SizedBox(width: 10),
             Text(
               selectedItem.toString(),
-              style: TextStyle(
-                  fontSize: 15.sp,
-                  color: const Color(0xFF242427),
-                  fontWeight: FontWeight.w600,
-                  height: 1.15),
+              style: textTheme.bodyLarge?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+              ),
             ),
+            const SizedBox(width: 10),
           ],
         ),
       ),

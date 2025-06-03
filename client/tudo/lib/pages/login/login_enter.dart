@@ -15,6 +15,7 @@ class LoginEnter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: colorScheme.surface,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           _maskBg(),
@@ -99,7 +100,7 @@ class LoginEnter extends StatelessWidget {
                     //     needMeta: false);
                   },
               ),
-              TextSpan(text: "和"),
+              TextSpan(text: " 和 "),
               TextSpan(
                 text: "服务条款",
                 style: TextStyle(
