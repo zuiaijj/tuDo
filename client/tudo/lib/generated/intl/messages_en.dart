@@ -125,7 +125,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "edit_info": MessageLookupByLibrary.simpleMessage("Edit information"),
     "edit_info_hint": MessageLookupByLibrary.simpleMessage("Please edit"),
     "enter_v_code_tip": MessageLookupByLibrary.simpleMessage(
-      "Enter the verification code",
+      "Enter the verification code just sent to your phone",
     ),
     "equip": MessageLookupByLibrary.simpleMessage("Equip"),
     "expenditure": MessageLookupByLibrary.simpleMessage("Expense"),
@@ -263,9 +263,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "user_take_photo": MessageLookupByLibrary.simpleMessage("Camera"),
     "user_tiancheng": MessageLookupByLibrary.simpleMessage("Libra"),
     "user_tianxie": MessageLookupByLibrary.simpleMessage("Scorpio"),
-    "v_code_login": MessageLookupByLibrary.simpleMessage(
-      "Verification code login",
-    ),
+    "v_code_login": MessageLookupByLibrary.simpleMessage("OTP Verification"),
     "verbal_harassment": MessageLookupByLibrary.simpleMessage(
       "Verbal harassment",
     ),

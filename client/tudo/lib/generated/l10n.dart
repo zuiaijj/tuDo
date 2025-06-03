@@ -460,10 +460,10 @@ class S {
     );
   }
 
-  /// `Enter the verification code`
+  /// `Enter the verification code just sent to your phone`
   String get enter_v_code_tip {
     return Intl.message(
-      'Enter the verification code',
+      'Enter the verification code just sent to your phone',
       name: 'enter_v_code_tip',
       desc: '',
       args: [],
@@ -1140,10 +1140,10 @@ class S {
     return Intl.message('Scorpio', name: 'user_tianxie', desc: '', args: []);
   }
 
-  /// `Verification code login`
+  /// `OTP Verification`
   String get v_code_login {
     return Intl.message(
-      'Verification code login',
+      'OTP Verification',
       name: 'v_code_login',
       desc: '',
       args: [],

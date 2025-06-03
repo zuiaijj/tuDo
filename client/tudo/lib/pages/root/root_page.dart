@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:tudo/pages/login/login_enter.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/pages/root/splash.dart';
+import 'package:tudo/tool/get_tool.dart';
 
 /// 页面Root page
 /// 所有页面的根页面
@@ -23,7 +24,16 @@ class _RootPageState extends State<RootPage> {
         return Stack(
           children: [
             // 首页大厅
-            if (controller.isLoggedIn) Container(),
+            if (controller.isLoggedIn)
+              Container(
+                alignment: Alignment.center,
+                child: Text(
+                  '登录成功',
+                  style: textTheme.bodyLarge?.copyWith(
+                    color: colorScheme.onSurface,
+                  ),
+                ),
+              ),
 
             // 登录页面
             if (!controller.isLoggedIn) const LoginEnter(),

@@ -78,7 +78,7 @@ class LoginEnter extends StatelessWidget {
 
   Widget _buildPrivacyText() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 17),
+      padding: const EdgeInsets.symmetric(horizontal: 6),
       child: Center(
         child: RichText(
           textAlign: TextAlign.center,
@@ -87,6 +87,9 @@ class LoginEnter extends StatelessWidget {
             children: [
               TextSpan(
                 text: intlS.by_signing_up,
+              ),
+              TextSpan(
+                text: ' ',
               ),
               TextSpan(
                 text: intlS.privacy_policy,
@@ -100,7 +103,15 @@ class LoginEnter extends StatelessWidget {
                     //     needMeta: false);
                   },
               ),
-              TextSpan(text: intlS.and_no_trim),
+              TextSpan(
+                text: ' ',
+              ),
+              TextSpan(
+                text: intlS.and_no_trim,
+              ),
+              TextSpan(
+                text: ' ',
+              ),
               TextSpan(
                 text: intlS.terms_service,
                 style: TextStyle(

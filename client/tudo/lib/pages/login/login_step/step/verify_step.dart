@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:tudo/tool/get_tool.dart';
 import 'package:tudo/tool/intl_tool.dart';
 import 'package:tudo/tool/timer_tool.dart';
@@ -23,6 +26,8 @@ class VerifyStep extends StatefulWidget {
 class _VerifyStepState extends State<VerifyStep> {
   final TextEditingController _codeEditController = TextEditingController();
   final FocusNode _focusNodeCode = FocusNode();
+  final StreamController<ErrorAnimationType> errorController =
+      StreamController<ErrorAnimationType>();
 
   TimerTool? _timer;
   final RxInt _countdownTime = 60.obs;
@@ -61,12 +66,8 @@ class _VerifyStepState extends State<VerifyStep> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          height: 56.h,
+          height: 60.h,
           margin: EdgeInsets.symmetric(horizontal: 24.w),
-          decoration: BoxDecoration(
-            color: colorScheme.surfaceDim,
-            borderRadius: BorderRadius.circular(20.r),
-          ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -99,41 +100,46 @@ class _VerifyStepState extends State<VerifyStep> {
             countStrP3 = counts[1];
           }
         }
-        return InkWell(
-          onTap: _clickResendBtn,
-          child: _isCountDown
-              ? Text.rich(
-                  TextSpan(
-                    style:
-                        TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w400),
-                    children: [
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            InkWell(
+              onTap: _clickResendBtn,
+              child: _isCountDown
+                  ? Text.rich(
                       TextSpan(
-                        text: countStrP1,
+                        style: TextStyle(
+                            fontSize: 12.sp, fontWeight: FontWeight.w400),
+                        children: [
+                          TextSpan(
+                            text: countStrP1,
+                          ),
+                          TextSpan(
+                              text: countStrP2,
+                              style: TextStyle(color: colorScheme.secondary)),
+                          TextSpan(
+                            text: countStrP3,
+                          ),
+                        ],
                       ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    )
+                  : Text.rich(
                       TextSpan(
-                          text: countStrP2,
-                          style: TextStyle(color: colorScheme.secondary)),
-                      TextSpan(
-                        text: countStrP3,
+                        style: TextStyle(
+                            fontSize: 14.sp, fontWeight: FontWeight.w500),
+                        children: [
+                          TextSpan(
+                            text: intlS.login_resend_code,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                )
-              : Text.rich(
-                  TextSpan(
-                    style:
-                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-                    children: [
-                      TextSpan(
-                        text: intlS.login_resend_code,
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                ),
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    ),
+            ),
+          ],
         );
       }),
     );
@@ -158,35 +164,35 @@ class _VerifyStepState extends State<VerifyStep> {
 
   _buildCodeInput() {
     return Expanded(
-      child: TextField(
+      child: PinCodeTextField(
+        appContext: context,
+        textStyle: textTheme.headlineMedium?.copyWith(
+          color: colorScheme.onSurface,
+        ),
+        animationType: AnimationType.fade,
+        length: 4,
         focusNode: _focusNodeCode,
+        autoFocus: true,
+        keyboardType: TextInputType.number,
+        cursorColor: colorScheme.secondary,
+        cursorHeight: 28,
+        useHapticFeedback: true,
+        errorAnimationController: errorController,
         controller: _codeEditController,
-        keyboardAppearance: Brightness.light,
-        autofocus: true,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        keyboardType: TextInputType.phone,
-        style: TextStyle(
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xFF242427),
+        pinTheme: PinTheme(
+          shape: PinCodeFieldShape.box,
+          borderRadius: BorderRadius.circular(10),
+          fieldHeight: 56,
+          fieldWidth: 60,
+          borderWidth: 1,
+          inactiveFillColor: colorScheme.surfaceContainerLowest,
+          inactiveColor: colorScheme.surfaceContainerLowest,
+          selectedColor: colorScheme.secondary,
+          activeColor: colorScheme.secondary,
+          activeFillColor: colorScheme.surfaceContainerLowest,
+          selectedFillColor: colorScheme.secondary,
         ),
-        textAlign: TextAlign.center,
-        maxLength: 13,
-        decoration: InputDecoration(
-          counterText: '',
-          isCollapsed: true,
-          border: InputBorder.none,
-          hintText: intlS.login_code_hint,
-          contentPadding: EdgeInsets.zero,
-          hintStyle: TextStyle(
-            fontSize: 20.sp,
-            height: 0.75,
-            textBaseline: TextBaseline.alphabetic,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFFA7A8AF),
-          ),
-          isDense: false,
-        ),
+        beforeTextPaste: (text) => true,
       ),
     );
   }

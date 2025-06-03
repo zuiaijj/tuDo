@@ -231,41 +231,42 @@ class LoginController extends GetxController {
 
   ///  ----------- on server action ------------
   Future<bool> _sendCode() async {
-    isRequesting.value = true;
-    BaseNetRes? res = await LoginNet.sendCode(
-        phone.value, countryCode.value.dialCode?.substring(1) ?? "");
-    isRequesting.value = false;
-    if (res == null) {
-      return false;
-    }
-    _sendCodeRequestId = res.data['code_req'];
+    // isRequesting.value = true;
+    // BaseNetRes? res = await LoginNet.sendCode(
+    //     phone.value, countryCode.value.dialCode?.substring(1) ?? "");
+    // isRequesting.value = false;
+    // if (res == null) {
+    //   return false;
+    // }
+    // _sendCodeRequestId = res.data['code_req'];
     return true;
   }
 
   Future<bool> _checkVerifyCode() async {
-    isRequesting.value = true;
-    UserModel? user = await LoginNet.loginVerifyCode(
-        phone.value,
-        code.value,
-        countryCode.value.dialCode?.substring(1) ?? "",
-        _sendCodeRequestId ?? "",
-        countryCode.value.code ?? "");
-    isRequesting.value = false;
-    if (user == null) {
-      return false;
-    }
-    UserManager.instance.user = user;
-    editUser.value = user;
+    // isRequesting.value = true;
+    // UserModel? user = await LoginNet.loginVerifyCode(
+    //     phone.value,
+    //     code.value,
+    //     countryCode.value.dialCode?.substring(1) ?? "",
+    //     _sendCodeRequestId ?? "",
+    //     countryCode.value.code ?? "");
+    // isRequesting.value = false;
+    // if (user == null) {
+    //   return false;
+    // }
+    // UserManager.instance.user = user;
+    // editUser.value = user;
     return true;
   }
 
   Future<bool> _setName() async {
-    isRequesting.value = true;
-    bool isSuccess = await _updateUserProfile({
-      "name": editUser.value.name,
-    });
-    isRequesting.value = false;
-    return isSuccess;
+    // isRequesting.value = true;
+    // bool isSuccess = await _updateUserProfile({
+    //   "name": editUser.value.name,
+    // });
+    // isRequesting.value = false;
+    // return isSuccess;
+    return true;
   }
 
   Future<bool> _updateUserProfile(Map<String, dynamic> params) async {

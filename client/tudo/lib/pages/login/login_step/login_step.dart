@@ -119,7 +119,7 @@ class _LoginStepPageState extends State<LoginStepPage> {
                   width: 20.w,
                   height: 20.w,
                   child: CircularProgressIndicator(
-                    color: Colors.white,
+                    color: colorScheme.onSurface,
                   ),
                 )
               : null,

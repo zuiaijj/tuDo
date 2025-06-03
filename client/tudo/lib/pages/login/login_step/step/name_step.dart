@@ -45,8 +45,8 @@ class _NameStepState extends State<NameStep> {
       height: 56.h,
       margin: EdgeInsets.symmetric(horizontal: 24.w),
       decoration: BoxDecoration(
-        color: colorScheme.surfaceDim,
-        borderRadius: BorderRadius.circular(20.r),
+        color: colorScheme.surfaceContainerLowest,
+        borderRadius: BorderRadius.circular(8.r),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -62,13 +62,11 @@ class _NameStepState extends State<NameStep> {
       child: TextField(
         focusNode: _focusNode,
         controller: _nameController,
-        keyboardAppearance: Brightness.light,
+        keyboardAppearance: colorScheme.brightness,
         autofocus: true,
         textCapitalization: TextCapitalization.words, // 首字母大写
-        style: TextStyle(
-          fontSize: 20.sp,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xFF242427),
+        style: textTheme.bodyLarge?.copyWith(
+          color: colorScheme.onSurface,
         ),
         textAlign: TextAlign.center,
         maxLength: 15,
@@ -76,14 +74,10 @@ class _NameStepState extends State<NameStep> {
           counterText: '',
           isCollapsed: true,
           border: InputBorder.none,
-          hintText: intlS.login_nick_hint,
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-          hintStyle: TextStyle(
-            fontSize: 20.sp,
-            height: 0.75,
-            textBaseline: TextBaseline.alphabetic,
-            fontWeight: FontWeight.w400,
-            color: const Color(0xFFA7A8AF),
+          hintText: intlS.login_phone_hint,
+          contentPadding: EdgeInsets.zero,
+          hintStyle: textTheme.bodyMedium?.copyWith(
+            color: colorScheme.outline,
           ),
           isDense: false,
         ),
