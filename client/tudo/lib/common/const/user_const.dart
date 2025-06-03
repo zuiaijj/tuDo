@@ -7,8 +7,8 @@ class UserInfoKeys {
 }
 
 class LoginApi {
-  static const String loginSendCodeApi = 'send/code';
-  static const String loginVerifyCodeApi = 'login/phone/login';
-  static const String setUserProfileApi = 'user/profile/update';
-  static const String logoutApi = 'user/logout';
+  static const String loginSendCodeApi = '/api/login/send-sms';
+  static const String loginVerifyCodeApi = '/api/login/phone/login';
+  static const String setUserProfileApi = '/api/user/profile/update';
+  static const String logoutApi = '/api/user/logout';
 }

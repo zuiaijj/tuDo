@@ -231,14 +231,14 @@ class LoginController extends GetxController {
 
   ///  ----------- on server action ------------
   Future<bool> _sendCode() async {
-    // isRequesting.value = true;
-    // BaseNetRes? res = await LoginNet.sendCode(
-    //     phone.value, countryCode.value.dialCode?.substring(1) ?? "");
-    // isRequesting.value = false;
-    // if (res == null) {
-    //   return false;
-    // }
-    // _sendCodeRequestId = res.data['code_req'];
+    isRequesting.value = true;
+    BaseNetRes? res = await LoginNet.sendCode(
+        phone.value, countryCode.value.dialCode?.substring(1) ?? "");
+    isRequesting.value = false;
+    if (res == null) {
+      return false;
+    }
+    _sendCodeRequestId = res.data['code_req'];
     return true;
   }
 

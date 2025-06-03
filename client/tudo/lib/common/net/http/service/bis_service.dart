@@ -38,7 +38,7 @@ class BisService extends BaseDioProvider {
         ? AppServerConfig.testServiceApi
         : AppServerConfig.serviceApi;
     if (EnvManager.isLocal) {
-      baseUrl = 'http://127.0.0.1:8080';
+      baseUrl = 'http://127.0.0.1:8000';
     }
     dio.options.headers = {
       "Access-Control-Allow-Origin": "*",
@@ -46,7 +46,8 @@ class BisService extends BaseDioProvider {
     dio.options.connectTimeout = const Duration(milliseconds: 10000);
     dio.options.receiveTimeout = const Duration(milliseconds: 8000);
     dio.options.contentType = "application/json";
-    String proxyIp = SpTool.getString(dmProxyIP);
+    // String proxyIp = SpTool.getString(dmProxyIP);
+    String proxyIp = "192.168.15.133";
     if (proxyIp.isSafeNotEmpty) {
       (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient = () {
         HttpClient client = HttpClient();

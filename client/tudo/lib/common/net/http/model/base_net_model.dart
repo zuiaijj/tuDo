@@ -12,8 +12,8 @@ class BaseNetRes {
   BaseNetRes.error(this.message);
 
   BaseNetRes.fromJson(Map<String, dynamic> json) {
-    code = json['dm_error'];
-    message = json['error_msg'];
+    code = json['code'];
+    message = json['message'];
     resMap = json;
   }
 

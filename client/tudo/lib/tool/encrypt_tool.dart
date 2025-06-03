@@ -84,7 +84,8 @@ class EncryptTool {
         RSAKeyParser().parse(phoneRsa) as pointy.RSAPublicKey;
     final encrypt = Encrypter(RSA(publicKey: publicKey));
     final encrypted = encrypt.encrypt(bareData);
-    return const AsciiCodec().decode(_encodeHex(encrypted.bytes.toList()));
+    return base64.encode(encrypted.bytes);
+    // return const AsciiCodec().decode(_encodeHex(encrypted.bytes.toList()));
   }
 
   static List<int> _encodeHex(List<int> data) {

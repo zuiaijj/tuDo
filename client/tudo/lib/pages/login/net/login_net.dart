@@ -14,7 +14,7 @@ class LoginNet {
       phone = prefix + phone;
     }
     return {
-      'phone_num': EncryptTool.rsaPhoneEncrypt(phone),
+      'phone': EncryptTool.rsaPhoneEncrypt(phone),
       'dial_code': encodeAreaCode,
     };
   }

@@ -8,6 +8,7 @@ from app.utils.validators import UidSidValidator, UidValidator
 class SendSmsRequest(BaseModel):
     """发送短信验证码请求"""
     phone: str = Field(..., description="手机号")
+    dial_code: str = Field(..., description="国际区号")
     
     @validator('phone')
     def validate_phone(cls, v):
@@ -17,12 +18,16 @@ class SendSmsRequest(BaseModel):
         
         # 移除所有空格和特殊字符
         phone = re.sub(r'[^\d]', '', PhoneCrypto.decrypt(v))
+
+        if not phone.isdigit():
+            raise ValueError('手机号格式错误')
         
         return phone
 
 class LoginRequest(BaseModel):
     """手机号登录请求"""
     phone: str = Field(..., description="手机号")
+    dial_code: str = Field(..., description="国际区号")
     sms_code: str = Field(..., description="短信验证码")
     
     @validator('phone')
@@ -33,6 +38,9 @@ class LoginRequest(BaseModel):
         
         # 移除所有空格和特殊字符
         phone = re.sub(r'[^\d]', '', PhoneCrypto.decrypt(v))
+
+        if not phone.isdigit():
+            raise ValueError('手机号格式错误')
         
         return phone
     

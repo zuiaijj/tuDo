@@ -214,11 +214,7 @@ class RSACrypto:
             # 使用RSA私钥解密
             decrypted = private_key.decrypt(
                 encrypted_data,
-                rsa_padding.OAEP(
-                    mgf=rsa_padding.MGF1(algorithm=hashes.SHA256()),
-                    algorithm=hashes.SHA256(),
-                    label=None
-                )
+                rsa_padding.PKCS1v15()
             )
             
             return decrypted.decode('utf-8')

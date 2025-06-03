@@ -34,12 +34,13 @@ class SmsService:
         # 测试手机号：以188开头的11位号码
         return phone.startswith('188') and len(phone) == 11
     
-    async def send_sms_code(self, phone: str) -> Dict[str, Any]:
+    async def send_sms_code(self, phone: str, dial_code: str) -> Dict[str, Any]:
         """
         发送短信验证码
         
         Args:
             phone: 手机号
+            dial_code: 国际区号
             
         Returns:
             dict: 发送结果
@@ -48,16 +49,16 @@ class SmsService:
             ValueError: 发送失败时抛出异常
         """
         current_time = time.time()
-        
+        full_phone = f"{dial_code}{phone}"
         # 检查发送频率限制
-        if phone in self._send_limits:
-            last_send_time = self._send_limits[phone]
+        if full_phone in self._send_limits:
+            last_send_time = self._send_limits[full_phone]
             if current_time - last_send_time < self.SEND_INTERVAL:
                 remaining = int(self.SEND_INTERVAL - (current_time - last_send_time))
                 raise ValueError(f"发送过于频繁，请等待 {remaining} 秒后再试")
         
         # 生成验证码
-        if self._is_test_phone(phone):
+        if self._is_test_phone(full_phone):
             # 测试手机号使用固定验证码
             code = self.TEST_CODE
         else:
@@ -65,7 +66,7 @@ class SmsService:
             code = self._generate_code()
         
         # 存储验证码
-        self._codes[phone] = {
+        self._codes[full_phone] = {
             "code": code,
             "expires": current_time + self.CODE_EXPIRES,
             "attempts": 0,
@@ -73,18 +74,18 @@ class SmsService:
         }
         
         # 更新发送时间
-        self._send_limits[phone] = current_time
+        self._send_limits[full_phone] = current_time
         
         # 模拟发送短信
-        await self._simulate_send_sms(phone, code)
+        await self._simulate_send_sms(full_phone, code)
         
         return {
             "success": True,
             "message": "验证码发送成功",
             "phone_display": f"****{phone[-4:]}",
             "expires_in": self.CODE_EXPIRES,
-            "test_mode": self._is_test_phone(phone),
-            "test_code": code if self._is_test_phone(phone) else None
+            "test_mode": self._is_test_phone(full_phone),
+            "code": code 
         }
     
     async def _simulate_send_sms(self, phone: str, code: str):
@@ -94,10 +95,10 @@ class SmsService:
         Args:
             phone: 手机号
             code: 验证码
+            dial_code: 国际区号
         """
         # 模拟网络延迟
         await asyncio.sleep(0.1)
-        
         # 在开发环境下打印验证码到控制台
         print(f"📱 模拟短信发送:")
         print(f"   手机号: {phone}")
@@ -109,33 +110,34 @@ class SmsService:
         
         print("-" * 40)
     
-    def verify_sms_code(self, phone: str, code: str) -> Dict[str, Any]:
+    def verify_sms_code(self, phone: str, dial_code: str, code: str) -> Dict[str, Any]:
         """
         验证短信验证码
         
         Args:
             phone: 手机号
+            dial_code: 国际区号
             code: 验证码
             
         Returns:
             dict: 验证结果
         """
         current_time = time.time()
-        
+        full_phone = f"{dial_code}{phone}"
         # 检查验证码是否存在
-        if phone not in self._codes:
+        if full_phone not in self._codes:
             return {
                 "success": False,
                 "message": "验证码不存在或已过期，请重新获取",
                 "error_code": "CODE_NOT_FOUND"
             }
         
-        code_info = self._codes[phone]
+        code_info = self._codes[full_phone]
         
         # 检查验证码是否过期
         if current_time > code_info["expires"]:
             # 清理过期验证码
-            del self._codes[phone]
+            del self._codes[full_phone]
             return {
                 "success": False,
                 "message": "验证码已过期，请重新获取",
@@ -145,7 +147,7 @@ class SmsService:
         # 检查尝试次数
         if code_info["attempts"] >= self.MAX_ATTEMPTS:
             # 清理验证码
-            del self._codes[phone]
+            del self._codes[full_phone]
             return {
                 "success": False,
                 "message": "验证码尝试次数过多，请重新获取",
@@ -158,7 +160,7 @@ class SmsService:
         # 验证验证码
         if code_info["code"] == code:
             # 验证成功，清理验证码
-            del self._codes[phone]
+            del self._codes[full_phone]
             return {
                 "success": True,
                 "message": "验证码验证成功"

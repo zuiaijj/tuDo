@@ -7,7 +7,7 @@ from app.services.sms_service import sms_service
 import traceback
 from datetime import datetime
 
-from app.utils.validators import UidSidValidator
+from app.utils.validators import DataResponse, ErrorResponse, UidSidValidator, error_response, success_response
 from app.views.user.validator.v_login import LoginRequest, SendSmsRequest, RefreshTokenRequest
 
 # 创建认证蓝图
@@ -23,6 +23,7 @@ async def send_sms_code(request: Request):
     请求体:
     {
         "phone": "加密后的手机号"
+        "dial_code": "国际区号"
     }
     """
     try:
@@ -30,48 +31,28 @@ async def send_sms_code(request: Request):
         try:
             data = SendSmsRequest(**request.json)
         except ValidationError as e:
-            return json({
-                "error": "VALIDATION_ERROR",
-                "message": "请求数据格式错误",
-                "details": str(e)
-            }, status=400)
+            return json(error_response(message="请求数据格式错误", error_details={"details": str(e)}))
         
         # 发送短信验证码
-        result = await sms_service.send_sms_code(data.phone)
+        result = await sms_service.send_sms_code(data.phone, data.dial_code)
         
         if result["success"]:
             response_data = {
-                "message": result["message"],
-                "phone_display": result["phone_display"],
-                "expires_in": result["expires_in"]
+                "sms_code": result["code"],
             }
             
-            # 如果是测试模式，返回验证码
-            if result.get("test_mode"):
-                response_data["test_code"] = result["test_code"]
-                response_data["test_mode"] = True
-            
-            return json(response_data, status=200)
+            return json(success_response(data=response_data))
         else:
-            return json({
-                "error": "SMS_SEND_FAILED",
-                "message": result.get("message", "短信发送失败")
-            }, status=500)
+            return json(error_response(message=result.get("message", "短信发送失败")))
             
     except ValueError as e:
-        return json({
-            "error": "SMS_SEND_ERROR",
-            "message": str(e)
-        }, status=400)
+        return json(error_response(message=str(e)))
     except Exception as e:
         print(f"发送短信验证码错误: {e}")
         print(traceback.format_exc())
-        return json({
-            "error": "INTERNAL_ERROR",
-            "message": "服务器内部错误"
-        }, status=500)
+        return json(error_response(message="服务器内部错误"))
 
-@auth_bp.post("/login")
+@auth_bp.post("/phone/login")
 async def login(request: Request):
     """
     手机号验证码登录
@@ -79,6 +60,7 @@ async def login(request: Request):
     请求体:
     {
         "phone": "加密后的手机号",
+        "dial_code": "国际区号",
         "sms_code": "1234"
     }
     """
@@ -94,7 +76,7 @@ async def login(request: Request):
             }, status=400)
         
         # 验证短信验证码
-        verify_result = sms_service.verify_sms_code(data.phone, data.sms_code)
+        verify_result = sms_service.verify_sms_code(data.phone, data.dial_code, data.sms_code)
         
         if not verify_result["success"]:
             return json({
