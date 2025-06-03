@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/pages/login/login_enter.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/pages/root/splash.dart';
@@ -28,7 +29,7 @@ class _RootPageState extends State<RootPage> {
               Container(
                 alignment: Alignment.center,
                 child: Text(
-                  '登录成功',
+                  '登录成功 ${UserManager.instance.user?.id}，欢迎回来',
                   style: textTheme.bodyLarge?.copyWith(
                     color: colorScheme.onSurface,
                   ),

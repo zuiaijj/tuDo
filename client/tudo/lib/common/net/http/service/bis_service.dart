@@ -37,6 +37,9 @@ class BisService extends BaseDioProvider {
     baseUrl = EnvManager.isTest
         ? AppServerConfig.testServiceApi
         : AppServerConfig.serviceApi;
+    if (EnvManager.isLocal) {
+      baseUrl = 'http://127.0.0.1:8080';
+    }
     dio.options.headers = {
       "Access-Control-Allow-Origin": "*",
     };

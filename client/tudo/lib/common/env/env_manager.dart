@@ -13,10 +13,13 @@ class EnvManager {
 
   static bool get isTest => _env == Env.test;
 
+  static bool isLocal = false;
+
   static init() async {
     try {
       await dotenv.load(fileName: 'assets/.env');
       _env = enumFromName(Env.values, dotenv.env['env'] ?? '');
+      isLocal = dotenv.env['local'] == '1';
     } catch (e) {
       print('env load error: $e');
     }
