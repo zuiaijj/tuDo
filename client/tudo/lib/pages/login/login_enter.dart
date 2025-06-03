@@ -7,6 +7,7 @@ import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/common/widget/base_widget.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/tool/get_tool.dart';
+import 'package:tudo/tool/intl_tool.dart';
 
 class LoginEnter extends StatelessWidget {
   const LoginEnter({super.key});
@@ -63,7 +64,7 @@ class LoginEnter extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Btn(
-          "手机号登录",
+          intlS.login_phone,
           onPressed: () {
             if (Get.isRegistered<RootPageController>()) {
               Get.find<RootPageController>().initAfterAgree();
@@ -85,11 +86,10 @@ class LoginEnter extends StatelessWidget {
             style: textTheme.bodySmall?.copyWith(color: colorScheme.outline),
             children: [
               TextSpan(
-                text: "已阅读并同意",
+                text: intlS.by_signing_up,
               ),
-              TextSpan(text: ' '),
               TextSpan(
-                text: "隐私政策",
+                text: intlS.privacy_policy,
                 style: TextStyle(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.w500,
@@ -100,9 +100,9 @@ class LoginEnter extends StatelessWidget {
                     //     needMeta: false);
                   },
               ),
-              TextSpan(text: " 和 "),
+              TextSpan(text: intlS.and_no_trim),
               TextSpan(
-                text: "服务条款",
+                text: intlS.terms_service,
                 style: TextStyle(
                   color: colorScheme.primary,
                   fontWeight: FontWeight.w500,

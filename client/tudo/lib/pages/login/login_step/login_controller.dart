@@ -8,6 +8,7 @@ import 'package:tudo/pages/login/net/login_net.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tudo/tool/intl_tool.dart';
 
 enum LoginStep {
   phone,
@@ -42,7 +43,7 @@ class LoginController extends GetxController {
   final Rx<UserModel> editUser = UserModel.empty().obs;
 
   final Rx<CountryCodeModel> countryCode =
-      CountryCodeModel(name: 'Hongkong', code: 'HK', dialCode: '+852').obs;
+      CountryCodeModel(name: 'China', code: 'CN', dialCode: '+86').obs;
   final Rx<LoginStep> currentStep = LoginStep.phone.obs;
 
   final RxBool isContinueEnable = false.obs;
@@ -50,26 +51,26 @@ class LoginController extends GetxController {
 
   final RxList<LoginStepConfig> steps = [
     LoginStepConfig(
-      title: "Welcome !",
+      title: intlS.login_welcome,
       step: LoginStep.phone,
-      dec: "输入手机号，获取验证码",
-      stepTitle: "发送验证码",
+      dec: intlS.will_send_auth,
+      stepTitle: intlS.send_auth_code,
       canSkip: false,
       centerBtn: false,
     ),
     LoginStepConfig(
-      title: "验证码登录",
+      title: intlS.v_code_login,
       step: LoginStep.verifyCode,
-      dec: '输入验证码，登录账号',
-      stepTitle: "验证码登录",
+      dec: intlS.enter_v_code_tip,
+      stepTitle: intlS.login_continue,
       canSkip: false,
       centerBtn: false,
     ),
     LoginStepConfig(
-      title: "创建你的昵称",
+      title: intlS.create_nick_title,
       step: LoginStep.name,
-      dec: "我们该怎么称呼你呢？",
-      stepTitle: "创建昵称",
+      dec: intlS.create_nick_tip,
+      stepTitle: intlS.login_continue,
       canSkip: false,
       centerBtn: false,
     ),

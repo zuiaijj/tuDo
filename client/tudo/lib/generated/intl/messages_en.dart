@@ -23,10 +23,10 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m0(clear, beautiful) =>
       "Please upload a ${clear} and ${beautiful} avatar";
 
-  static String m1(count) => "you can request a new code in ${count}  seconds";
+  static String m1(count) => "you can request a new code in ${count} seconds";
 
   static String m2(productID) =>
-      "Product: ${productID}  information cannot be queried";
+      "Product: ${productID} information cannot be queried";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -37,7 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "album_not_authorized": MessageLookupByLibrary.simpleMessage(
       "Album not authorized",
     ),
-    "and_no_trim": MessageLookupByLibrary.simpleMessage(" and "),
+    "and_no_trim": MessageLookupByLibrary.simpleMessage("and"),
     "apply_for_deleting": MessageLookupByLibrary.simpleMessage(
       "Apply for deleteing ID",
     ),
@@ -49,9 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "blacklist": MessageLookupByLibrary.simpleMessage("Blacklist"),
     "block": MessageLookupByLibrary.simpleMessage("Block"),
     "buy": MessageLookupByLibrary.simpleMessage("Buy"),
-    "by_signing_up": MessageLookupByLibrary.simpleMessage(
-      "By signing up, you are agreeing to our",
-    ),
+    "by_signing_up": MessageLookupByLibrary.simpleMessage("Read and agree"),
     "camera_not_authorized": MessageLookupByLibrary.simpleMessage(
       "Camera not authorized",
     ),
@@ -78,6 +76,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "copy_success": MessageLookupByLibrary.simpleMessage("Copied successfully"),
     "country_select_page_title": MessageLookupByLibrary.simpleMessage(
       "Select country/region",
+    ),
+    "create_nick_tip": MessageLookupByLibrary.simpleMessage(
+      "What should we call you?",
+    ),
+    "create_nick_title": MessageLookupByLibrary.simpleMessage(
+      "Create your nickname",
     ),
     "create_order_error": MessageLookupByLibrary.simpleMessage(
       "Creating error payment order. Please try again.",
@@ -114,12 +118,15 @@ class MessageLookup extends MessageLookupByLibrary {
     "delete_tip_3": MessageLookupByLibrary.simpleMessage(
       "Your personal information will be deleted and cannot be retrieved",
     ),
-    "dislike": MessageLookupByLibrary.simpleMessage("Dislike "),
+    "dislike": MessageLookupByLibrary.simpleMessage("Dislike"),
     "dislike_toast": MessageLookupByLibrary.simpleMessage(
       "You disliked him/her",
     ),
     "edit_info": MessageLookupByLibrary.simpleMessage("Edit information"),
     "edit_info_hint": MessageLookupByLibrary.simpleMessage("Please edit"),
+    "enter_v_code_tip": MessageLookupByLibrary.simpleMessage(
+      "Enter the verification code",
+    ),
     "equip": MessageLookupByLibrary.simpleMessage("Equip"),
     "expenditure": MessageLookupByLibrary.simpleMessage("Expense"),
     "fail": MessageLookupByLibrary.simpleMessage("Failed"),
@@ -155,7 +162,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "login_nick_hint": MessageLookupByLibrary.simpleMessage(
       "Input your nickname",
     ),
-    "login_phone": MessageLookupByLibrary.simpleMessage("Sign up with Phone"),
+    "login_phone": MessageLookupByLibrary.simpleMessage("Login By Phone"),
     "login_phone_hint": MessageLookupByLibrary.simpleMessage(
       "Input phone number",
     ),
@@ -163,6 +170,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "login_title": MessageLookupByLibrary.simpleMessage("Login"),
     "login_verification_code_content": m1,
     "login_way": MessageLookupByLibrary.simpleMessage("Login Method"),
+    "login_welcome": MessageLookupByLibrary.simpleMessage("Welcome !"),
     "male": MessageLookupByLibrary.simpleMessage("Male"),
     "me_title": MessageLookupByLibrary.simpleMessage("Me"),
     "media_library_is_not_authorized": MessageLookupByLibrary.simpleMessage(
@@ -223,6 +231,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "select_your_gender": MessageLookupByLibrary.simpleMessage(
       "Select Your Gender",
     ),
+    "send_auth_code": MessageLookupByLibrary.simpleMessage("Send Code"),
     "set_up": MessageLookupByLibrary.simpleMessage("Set up"),
     "setting": MessageLookupByLibrary.simpleMessage("Settings"),
     "store": MessageLookupByLibrary.simpleMessage("Mall"),
@@ -254,6 +263,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "user_take_photo": MessageLookupByLibrary.simpleMessage("Camera"),
     "user_tiancheng": MessageLookupByLibrary.simpleMessage("Libra"),
     "user_tianxie": MessageLookupByLibrary.simpleMessage("Scorpio"),
+    "v_code_login": MessageLookupByLibrary.simpleMessage(
+      "Verification code login",
+    ),
     "verbal_harassment": MessageLookupByLibrary.simpleMessage(
       "Verbal harassment",
     ),

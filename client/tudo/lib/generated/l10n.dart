@@ -80,9 +80,9 @@ class S {
     );
   }
 
-  /// ` and `
+  /// `and`
   String get and_no_trim {
-    return Intl.message(' and ', name: 'and_no_trim', desc: '', args: []);
+    return Intl.message('and', name: 'and_no_trim', desc: '', args: []);
   }
 
   /// `Apply for deleteing ID`
@@ -135,10 +135,10 @@ class S {
     return Intl.message('Buy', name: 'buy', desc: '', args: []);
   }
 
-  /// `By signing up, you are agreeing to our`
+  /// `Read and agree`
   String get by_signing_up {
     return Intl.message(
-      'By signing up, you are agreeing to our',
+      'Read and agree',
       name: 'by_signing_up',
       desc: '',
       args: [],
@@ -275,6 +275,26 @@ class S {
     );
   }
 
+  /// `What should we call you?`
+  String get create_nick_tip {
+    return Intl.message(
+      'What should we call you?',
+      name: 'create_nick_tip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create your nickname`
+  String get create_nick_title {
+    return Intl.message(
+      'Create your nickname',
+      name: 'create_nick_title',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Creating error payment order. Please try again.`
   String get create_order_error {
     return Intl.message(
@@ -405,9 +425,9 @@ class S {
     );
   }
 
-  /// `Dislike `
+  /// `Dislike`
   String get dislike {
-    return Intl.message('Dislike ', name: 'dislike', desc: '', args: []);
+    return Intl.message('Dislike', name: 'dislike', desc: '', args: []);
   }
 
   /// `You disliked him/her`
@@ -435,6 +455,16 @@ class S {
     return Intl.message(
       'Please edit',
       name: 'edit_info_hint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter the verification code`
+  String get enter_v_code_tip {
+    return Intl.message(
+      'Enter the verification code',
+      name: 'enter_v_code_tip',
       desc: '',
       args: [],
     );
@@ -610,10 +640,10 @@ class S {
     );
   }
 
-  /// `Sign up with Phone`
+  /// `Login By Phone`
   String get login_phone {
     return Intl.message(
-      'Sign up with Phone',
+      'Login By Phone',
       name: 'login_phone',
       desc: '',
       args: [],
@@ -645,10 +675,10 @@ class S {
     return Intl.message('Login', name: 'login_title', desc: '', args: []);
   }
 
-  /// `you can request a new code in {count}  seconds`
+  /// `you can request a new code in {count} seconds`
   String login_verification_code_content(Object count) {
     return Intl.message(
-      'you can request a new code in $count  seconds',
+      'you can request a new code in $count seconds',
       name: 'login_verification_code_content',
       desc: '',
       args: [count],
@@ -658,6 +688,11 @@ class S {
   /// `Login Method`
   String get login_way {
     return Intl.message('Login Method', name: 'login_way', desc: '', args: []);
+  }
+
+  /// `Welcome !`
+  String get login_welcome {
+    return Intl.message('Welcome !', name: 'login_welcome', desc: '', args: []);
   }
 
   /// `Male`
@@ -855,10 +890,10 @@ class S {
     );
   }
 
-  /// `Product: {productID}  information cannot be queried`
+  /// `Product: {productID} information cannot be queried`
   String query_production_error(Object productID) {
     return Intl.message(
-      'Product: $productID  information cannot be queried',
+      'Product: $productID information cannot be queried',
       name: 'query_production_error',
       desc: '',
       args: [productID],
@@ -930,6 +965,16 @@ class S {
     return Intl.message(
       'Select Your Gender',
       name: 'select_your_gender',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Send Code`
+  String get send_auth_code {
+    return Intl.message(
+      'Send Code',
+      name: 'send_auth_code',
       desc: '',
       args: [],
     );
@@ -1095,6 +1140,16 @@ class S {
     return Intl.message('Scorpio', name: 'user_tianxie', desc: '', args: []);
   }
 
+  /// `Verification code login`
+  String get v_code_login {
+    return Intl.message(
+      'Verification code login',
+      name: 'v_code_login',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Verbal harassment`
   String get verbal_harassment {
     return Intl.message(
@@ -1162,7 +1217,10 @@ class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   List<Locale> get supportedLocales {
     return const <Locale>[
       Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'zh'),
       Locale.fromSubtags(languageCode: 'zh', countryCode: 'HK'),
+      Locale.fromSubtags(languageCode: 'zh', countryCode: 'MO'),
+      Locale.fromSubtags(languageCode: 'zh', countryCode: 'TW'),
     ];
   }
 
