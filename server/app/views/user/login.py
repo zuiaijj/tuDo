@@ -90,10 +90,10 @@ async def register(request: Request):
         access_token = JWTUtils.generate_access_token(user.uid)
         refresh_token = JWTUtils.generate_refresh_token(user.uid)
         await User.update_profile(user.uid, "access_token", access_token)
-        
+        userJson = user.to_dict()
+        userJson["access_token"] = access_token
         return json(success_response(data={
-            "user": user.to_dict(),
-            "access_token": access_token,
+            "user": userJson,
             "refresh_token": refresh_token,
         }))
         
@@ -134,7 +134,7 @@ async def refresh_token(request: Request):
             return json(error_response(message="用户ID不匹配"))
         
         # 检查用户是否存在且激活
-        user = await User.get(id=user_id)
+        user = await User.get(uid=user_id)
         if not user or not user.is_active:
             return json(error_response(message="用户不存在或已被禁用"))
         
@@ -152,42 +152,3 @@ async def refresh_token(request: Request):
         print(f"刷新令牌错误: {e}")
         print(traceback.format_exc())
         return json(error_response(message="服务器内部错误"))
-
-@auth_bp.get("/me")
-async def get_current_user(request: Request):
-    """
-    获取当前用户信息
-    
-    需要在请求头中包含: Authorization: Bearer <access_token>
-    """
-    try:
-        # 从查询参数获取令牌和用户ID
-        auth_header = UidSidValidator(**request.json)
-        access_token = auth_header.access_token
-        user_id = auth_header.uid
-        
-        # 获取用户信息
-        user = await User.get(id=user_id)
-        if not user or not user.is_active:
-            return json({
-                "error": "USER_INVALID",
-                "message": "用户不存在或已被禁用"
-            }, status=401)
-        if (access_token != user.access_token):
-            return json({
-                "error": "TOKEN_INVALID",
-                "message": "访问令牌过期，请重新登录"
-            }, status=401)
-        
-        return json({
-            "message": "获取用户信息成功",
-            "user": user.to_dict(),
-        }, status=200)
-        
-    except Exception as e:
-        print(f"获取用户信息错误: {e}")
-        print(traceback.format_exc())
-        return json({
-            "error": "INTERNAL_ERROR",
-            "message": "服务器内部错误"
-        }, status=500)

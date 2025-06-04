@@ -3,6 +3,7 @@ from tortoise.models import Model
 from tortoise import fields
 from typing import Optional
 from ...utils.crypto_utils import CryptoUtils, PhoneCrypto
+from ..const import UserGender, UserStatus
 
 
 class User(Model):
@@ -30,12 +31,12 @@ class User(Model):
     
     uid = fields.IntField(pk=True, description="用户ID")
     nick_name = fields.CharField(max_length=50, default="", description="用户昵称")
-    gender = fields.IntField(default=0, description="性别 (0: 未知, 1: 男, 2: 女)")
+    gender = fields.IntField(default=UserGender.UNKNOWN, description="性别 (0: 未知, 1: 男, 2: 女)")
     avatar = fields.CharField(max_length=255, default="", description="头像")
     access_token = fields.CharField(max_length=255, default="", description="用户访问令牌")
     phone = fields.CharField(max_length=255, unique=True, null=True, description="手机号")
     phone_last_four = fields.CharField(max_length=4, default="", description="手机号后四位（用于显示）")
-    is_active = fields.BooleanField(default=True, description="是否激活")
+    is_active = fields.BooleanField(default=UserStatus.ACTIVE, description="是否激活")
     created_at = fields.DatetimeField(auto_now_add=True, description="创建时间")
     updated_at = fields.DatetimeField(auto_now=True, description="更新时间")
     
@@ -93,12 +94,7 @@ class User(Model):
         Returns:
             str: 性别显示文本
         """
-        gender_map = {
-            0: "未知",
-            1: "男",
-            2: "女"
-        }
-        return gender_map.get(self.gender, "未知")
+        return UserGender.get_display(self.gender)
     
     @classmethod
     async def create_user(cls, phone: Optional[str] = None, **kwargs) -> "User":
@@ -127,10 +123,10 @@ class User(Model):
             "phone": phone,
             "phone_last_four": phone_last_four,
             "nick_name": kwargs.get("nick_name", ""),
-            "gender": kwargs.get("gender", 0),
+            "gender": kwargs.get("gender", UserGender.UNKNOWN),
             "avatar": kwargs.get("avatar", ""),
             "access_token": kwargs.get("access_token", ""),
-            "is_active": kwargs.get("is_active", True),
+            "is_active": kwargs.get("is_active", UserStatus.ACTIVE),
         }
         
         # 创建用户
@@ -159,7 +155,7 @@ class User(Model):
         """
         if not phone:
             return None
-        return await cls.get_or_none(phone=phone, is_active=True)
+        return await cls.get_or_none(phone=phone, is_active=UserStatus.ACTIVE)
     
     def to_dict(self, include_phone: bool = True, include_sensitive: bool = False) -> dict:
         """

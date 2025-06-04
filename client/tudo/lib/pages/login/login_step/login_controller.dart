@@ -1,6 +1,7 @@
 import 'package:tudo/common/const/root_const.dart';
 import 'package:tudo/common/const/user_const.dart';
 import 'package:tudo/common/net/http/model/base_net_model.dart';
+import 'package:tudo/common/net/meta.dart';
 import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/common/user/user_model.dart';
 import 'package:tudo/pages/login/login_step/country_code/country_code_model.dart';
@@ -245,18 +246,21 @@ class LoginController extends GetxController {
 
   Future<bool> _checkVerifyCode() async {
     isRequesting.value = true;
-    UserModel? user = await LoginNet.loginVerifyCode(
-        phone.value,
-        code.value,
-        countryCode.value.dialCode?.substring(1) ?? "",
-        _sendCodeRequestId ?? "",
-        countryCode.value.code ?? "");
+    (UserModel? user, String? refreshToken) res =
+        await LoginNet.loginVerifyCode(
+            phone.value,
+            code.value,
+            countryCode.value.dialCode?.substring(1) ?? "",
+            _sendCodeRequestId ?? "",
+            countryCode.value.code ?? "");
     isRequesting.value = false;
-    if (user == null) {
+    if (res.$1 == null) {
       return false;
     }
-    UserManager.instance.user = user;
-    editUser.value = user;
+    UserManager.instance.user = res.$1;
+    UserManager.instance.refreshToken = res.$2;
+    MetaTool.fetchMetaMap();
+    editUser.value = res.$1!;
     return true;
   }
 

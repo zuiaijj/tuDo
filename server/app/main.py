@@ -4,6 +4,7 @@ from sanic_cors import CORS
 from app.config.database import init_db, close_db
 from app.config.settings import settings
 from app.views.user.login import auth_bp
+from app.views.user.user import user_bp
 
 # 创建 Sanic 应用
 app = Sanic("TuDoServer")
@@ -13,6 +14,7 @@ CORS(app)
 
 # 注册蓝图
 app.blueprint(auth_bp)
+app.blueprint(user_bp)
 
 # 数据库事件
 @app.before_server_start

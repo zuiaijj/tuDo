@@ -3,7 +3,7 @@ from typing import Optional
 import re
 
 from app.utils.crypto_utils import PhoneCrypto
-from app.utils.validators import UidSidValidator, UidValidator
+from app.utils.validators import UidValidator
 
 class SendSmsRequest(BaseModel):
     """发送短信验证码请求"""

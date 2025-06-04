@@ -11,6 +11,7 @@ class InitAppTag {
 
 class AppSpKeys {
   static const String userInfo = 'user_info';
+  static const String refreshToken = 'refresh_token';
 }
 
 class RouteConst {

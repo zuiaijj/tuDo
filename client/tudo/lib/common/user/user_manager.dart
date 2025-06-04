@@ -19,6 +19,15 @@ class UserManager {
 
   UserModel? get user => _user;
 
+  String? _refreshToken;
+
+  String? get refreshToken => _refreshToken;
+
+  set refreshToken(String? value) {
+    _refreshToken = value;
+    SpTool.putString(AppSpKeys.refreshToken, value ?? '');
+  }
+
   int get uid => _user?.id ?? 0;
 
   bool get isLogin => _user != null && _user!.id != 0 && _user!.session != '';
@@ -99,6 +108,7 @@ class UserManager {
 
   void _load() {
     String userJson = SpTool.getString(AppSpKeys.userInfo);
+    _refreshToken = SpTool.getString(AppSpKeys.refreshToken);
     if (userJson.isNotEmpty) {
       Map<String, dynamic> userMap = jsonDecode(userJson);
       if (userMap.isNotEmpty) {

@@ -4,11 +4,17 @@
 基于Pydantic提供API请求参数校验功能
 """
 
+import traceback
 from typing import Optional, Any, Dict, Type, TypeVar, Generic, List
 from pydantic import BaseModel, Field, validator, ValidationError
 import re
 import time
 from functools import wraps
+
+from sanic import Request
+
+from app.models.user.user import User
+from app.models.const import ResponseCode, ErrorType, Message
 
 # 定义类型变量
 T = TypeVar('T', bound=BaseModel)
@@ -51,8 +57,8 @@ class UidValidator(BaseRequest):
 
 class BaseResponse(BaseModel):
     """基础响应模型"""
-    code: int = Field(default=0, description="响应状态码")
-    message: str = Field(default="success", description="响应消息")
+    code: int = Field(default=ResponseCode.SUCCESS, description="响应状态码")
+    message: str = Field(default=Message.SUCCESS, description="响应消息")
     success: bool = Field(default=True, description="是否成功")
     timestamp: Optional[int] = Field(default=None, description="时间戳")
     
@@ -85,8 +91,8 @@ class DataResponse(BaseResponse, Generic[DataT]):
 
 class ErrorResponse(BaseResponse):
     """错误响应模型"""
-    code: int = Field(default=500, description="错误状态码")
-    message: str = Field(default="error", description="错误消息")
+    code: int = Field(default=ResponseCode.SERVER_ERROR, description="错误状态码")
+    message: str = Field(default=Message.SERVER_ERROR, description="错误消息")
     success: bool = Field(default=False, description="是否成功")
     error_type: Optional[str] = Field(default=None, description="错误类型")
     error_details: Optional[Dict[str, Any]] = Field(default=None, description="错误详情")
@@ -94,8 +100,8 @@ class ErrorResponse(BaseResponse):
 
 def success_response(
     data: Any = None,
-    message: str = "success",
-    code: int = 0
+    message: str = Message.SUCCESS,
+    code: int = ResponseCode.SUCCESS
 ) -> Dict[str, Any]:
     """创建成功响应模型对象"""
     return DataResponse(
@@ -108,8 +114,8 @@ def success_response(
 
 
 def error_response(
-    message: str = "error",
-    code: int = 500,
+    message: str = Message.SERVER_ERROR,
+    code: int = ResponseCode.SERVER_ERROR,
     error_type: Optional[str] = None,
     error_details: Optional[Dict[str, Any]] = None
 ) -> Dict[str, Any]:
@@ -123,3 +129,54 @@ def error_response(
         timestamp=int(time.time() * 1000)
     ).json_response()
 
+
+async def uid_sid_check(request: Request) -> Dict[str, Any]:
+    try:
+        # 从查询参数获取令牌和用户ID，处理列表值
+        query_params = {}
+        for key, value in request.args.items():
+            # request.args的值是列表，取第一个值
+            query_params[key] = value[0] if isinstance(value, list) and len(value) > 0 else value
+        
+        auth_params = UidSidValidator(**query_params)
+        access_token = auth_params.access_token
+        user_id = auth_params.uid
+        
+        # 获取用户信息
+        user = await User.get(uid=user_id)
+        if not user or not user.is_active:
+            return error_response(
+                message=Message.USER_NOT_FOUND,
+                code=ResponseCode.NOT_FOUND,
+                error_type=ErrorType.NOT_FOUND_ERROR
+            )
+        if (access_token != user.access_token):
+            print(f"access_token: {access_token}, \n user.access_token: {user.access_token}")
+            return error_response(
+                message=Message.TOKEN_EXPIRED,
+                code=ResponseCode.UNAUTHORIZED,
+                error_type=ErrorType.AUTHENTICATION_ERROR
+            )
+        return {
+            "code": ResponseCode.SUCCESS,
+            "user": user
+        }
+        
+    except ValidationError as e:
+        print(f"参数验证错误: {e}")
+        print(f"查询参数: {dict(request.args)}")
+        return error_response(
+            message=Message.PARAM_ERROR,
+            code=ResponseCode.PARAM_ERROR,
+            error_type=ErrorType.VALIDATION_ERROR,
+            error_details={"validation_errors": e.errors()}
+        )
+    except Exception as e:
+        print(f"获取用户信息错误: {e}")
+        print(f"查询参数: {dict(request.args)}")
+        print(traceback.format_exc())
+        return error_response(
+            message=Message.SERVER_ERROR,
+            code=ResponseCode.SERVER_ERROR,
+            error_type=ErrorType.SERVER_ERROR
+        )

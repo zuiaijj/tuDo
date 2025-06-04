@@ -1,4 +1,5 @@
 import 'package:tudo/common/log/td_logger.dart';
+import 'package:tudo/common/user/user_manager.dart';
 
 class MetaTool {
   /// meta信息
@@ -28,6 +29,9 @@ class MetaTool {
   /// 拉取meta信息
   static Future<Map<String, dynamic>> fetchMetaMap() async {
     Map<String, dynamic> data = <String, dynamic>{};
+
+    data['uid'] = UserManager.instance.user?.id;
+    data['access_token'] = UserManager.instance.user?.session;
 
     _metaData.clear();
     _metaData.addAll(data);

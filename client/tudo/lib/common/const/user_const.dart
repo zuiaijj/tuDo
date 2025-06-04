@@ -2,6 +2,7 @@ class UserInfoKeys {
   static const String name = 'nick_name';
   static const String phone = 'phone';
   static const String session = 'access_token';
+  static const String refreshToken = 'refresh_token';
   static const String id = 'uid';
   static const String isblock = 'is_active';
 }

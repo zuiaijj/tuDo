@@ -39,24 +39,32 @@ class LoginNet {
     return req;
   }
 
-  static Future<UserModel?> loginVerifyCode(String phone, String code,
-      String areaCode, String requestId, String countryCode) async {
+  static Future<(UserModel?, String?)> loginVerifyCode(
+      String phone,
+      String code,
+      String areaCode,
+      String requestId,
+      String countryCode) async {
     BaseNetRes response = await Api.ins.post(
       LoginApi.loginVerifyCodeApi,
       body: assembleLoginVerifyCodeReq(
           phone, code, areaCode, requestId, countryCode),
     );
     if (response.isSuccess) {
-      return UserModel.fromJson(response.data["user"]);
+      return (
+        UserModel.fromJson(response.data["user"]),
+        response.data["refresh_token"]?.toString()
+      );
     }
     ToastTool.show(response.message);
-    return null;
+    return (null, null);
   }
 
   static Future<bool> setProfile(Map<String, dynamic> params) async {
     BaseNetRes response = await Api.ins.post(
       LoginApi.setUserProfileApi,
       body: params,
+      forceFetch: true,
     );
     if (response.isSuccess) {
       return true;
