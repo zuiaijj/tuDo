@@ -1,14 +1,14 @@
 class UserInfoKeys {
   static const String name = 'nick_name';
-  static const String phone = 'phone_num';
-  static const String session = 'sid';
-  static const String id = 'user_id';
-  static const String isblock = 'is_black';
+  static const String phone = 'phone';
+  static const String session = 'access_token';
+  static const String id = 'uid';
+  static const String isblock = 'is_active';
 }
 
 class LoginApi {
   static const String loginSendCodeApi = '/api/login/send-sms';
-  static const String loginVerifyCodeApi = '/api/login/phone/login';
+  static const String loginVerifyCodeApi = '/api/login/phone/register';
   static const String setUserProfileApi = '/api/user/profile/update';
   static const String logoutApi = '/api/user/logout';
 }

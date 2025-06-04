@@ -37,7 +37,6 @@ class UserManager {
     String? session,
     String? name,
     int? gender,
-    String? phone,
     String? avatar,
     String? birth,
     int? height,
@@ -50,8 +49,6 @@ class UserManager {
           defaultVlaue(infoMap?[UserInfoKeys.session], _user!.session);
       _user!.name =
           name ?? defaultVlaue(infoMap?[UserInfoKeys.name], _user!.name);
-      _user!.phone =
-          phone ?? defaultVlaue(infoMap?[UserInfoKeys.phone], _user!.phone);
       _save();
     }
   }

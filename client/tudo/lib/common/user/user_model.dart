@@ -1,18 +1,20 @@
-import 'package:get/get.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
+  @JsonKey(name: 'uid')
   int id;
-  String? session;
+  @JsonKey(name: 'access_token')
+  String session;
+  @JsonKey(name: 'nick_name')
   String name;
   int gender;
   String phone;
   String avatar;
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  RxBool? isblock;
+  @JsonKey(name: 'is_active')
+  bool isActive;
 
   UserModel.empty()
       : id = 0,
@@ -21,7 +23,7 @@ class UserModel {
         gender = 0,
         phone = '',
         avatar = '',
-        isblock = false.obs;
+        isActive = false;
 
   UserModel(
       {required this.id,
@@ -30,7 +32,7 @@ class UserModel {
       required this.gender,
       required this.phone,
       required this.avatar,
-      this.isblock});
+      required this.isActive});
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
       _$UserModelFromJson(json);

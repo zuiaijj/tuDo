@@ -1,4 +1,5 @@
 import 'package:tudo/common/const/root_const.dart';
+import 'package:tudo/common/const/user_const.dart';
 import 'package:tudo/common/net/http/model/base_net_model.dart';
 import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/common/user/user_model.dart';
@@ -238,35 +239,34 @@ class LoginController extends GetxController {
     if (res == null) {
       return false;
     }
-    _sendCodeRequestId = res.data['code_req'];
+    _sendCodeRequestId = res.data['code_id'];
     return true;
   }
 
   Future<bool> _checkVerifyCode() async {
-    // isRequesting.value = true;
-    // UserModel? user = await LoginNet.loginVerifyCode(
-    //     phone.value,
-    //     code.value,
-    //     countryCode.value.dialCode?.substring(1) ?? "",
-    //     _sendCodeRequestId ?? "",
-    //     countryCode.value.code ?? "");
-    // isRequesting.value = false;
-    // if (user == null) {
-    //   return false;
-    // }
-    // UserManager.instance.user = user;
-    // editUser.value = user;
+    isRequesting.value = true;
+    UserModel? user = await LoginNet.loginVerifyCode(
+        phone.value,
+        code.value,
+        countryCode.value.dialCode?.substring(1) ?? "",
+        _sendCodeRequestId ?? "",
+        countryCode.value.code ?? "");
+    isRequesting.value = false;
+    if (user == null) {
+      return false;
+    }
+    UserManager.instance.user = user;
+    editUser.value = user;
     return true;
   }
 
   Future<bool> _setName() async {
-    // isRequesting.value = true;
-    // bool isSuccess = await _updateUserProfile({
-    //   "name": editUser.value.name,
-    // });
-    // isRequesting.value = false;
-    // return isSuccess;
-    return true;
+    isRequesting.value = true;
+    bool isSuccess = await _updateUserProfile({
+      UserInfoKeys.name: editUser.value.name,
+    });
+    isRequesting.value = false;
+    return isSuccess;
   }
 
   Future<bool> _updateUserProfile(Map<String, dynamic> params) async {

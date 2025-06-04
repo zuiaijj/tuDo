@@ -34,9 +34,8 @@ class LoginNet {
   static Map<String, dynamic> assembleLoginVerifyCodeReq(String phone,
       String code, String areaCode, String requestId, String countryCode) {
     Map<String, dynamic> req = assembleSendCodeReq(phone, areaCode);
-    req['code'] = code;
-    req['code_req'] = requestId;
-    req['country_code'] = countryCode;
+    req['sms_code'] = code;
+    req['code_id'] = requestId;
     return req;
   }
 
@@ -48,7 +47,7 @@ class LoginNet {
           phone, code, areaCode, requestId, countryCode),
     );
     if (response.isSuccess) {
-      return UserModel.fromJson(response.data);
+      return UserModel.fromJson(response.data["user"]);
     }
     ToastTool.show(response.message);
     return null;

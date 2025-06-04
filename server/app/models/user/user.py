@@ -12,8 +12,10 @@ class User(Model):
     字段说明：
     - uid: 用户ID
     - nick_name: 用户昵称
+    - gender: 性别 (0: 未知, 1: 男, 2: 女)
+    - avatar: 头像
     - access_token: 用户访问令牌
-    - phone_hash: 手机号RSA加密哈希（用于查找和验证）
+    - phone: 手机号
     - phone_last_four: 手机号后四位（用于显示）
     - is_active: 是否激活，默认为 True
     - created_at: 创建时间，自动设置
@@ -27,10 +29,12 @@ class User(Model):
     """
     
     uid = fields.IntField(pk=True, description="用户ID")
-    nick_name = fields.CharField(max_length=50, description="用户昵称")
-    access_token = fields.CharField(max_length=255, description="用户访问令牌")
-    phone_hash = fields.CharField(max_length=255, unique=True, description="手机号哈希（用于查找）")
-    phone_last_four = fields.CharField(max_length=4, description="手机号后四位（用于显示）")
+    nick_name = fields.CharField(max_length=50, default="", description="用户昵称")
+    gender = fields.IntField(default=0, description="性别 (0: 未知, 1: 男, 2: 女)")
+    avatar = fields.CharField(max_length=255, default="", description="头像")
+    access_token = fields.CharField(max_length=255, default="", description="用户访问令牌")
+    phone = fields.CharField(max_length=255, unique=True, null=True, description="手机号")
+    phone_last_four = fields.CharField(max_length=4, default="", description="手机号后四位（用于显示）")
     is_active = fields.BooleanField(default=True, description="是否激活")
     created_at = fields.DatetimeField(auto_now_add=True, description="创建时间")
     updated_at = fields.DatetimeField(auto_now=True, description="更新时间")
@@ -77,41 +81,60 @@ class User(Model):
         Returns:
             str: 手机号显示格式
         """
-        return PhoneCrypto.get_display_phone(self.phone_last_four)
+        if self.phone_last_four:
+            return PhoneCrypto.get_display_phone(self.phone_last_four)
+        return "****"
     
+    @property
+    def gender_display(self) -> str:
+        """
+        获取性别显示文本
+        
+        Returns:
+            str: 性别显示文本
+        """
+        gender_map = {
+            0: "未知",
+            1: "男",
+            2: "女"
+        }
+        return gender_map.get(self.gender, "未知")
     
     @classmethod
-    async def create_user(cls, phone: str) -> "User":
+    async def create_user(cls, phone: Optional[str] = None, **kwargs) -> "User":
         """
         创建新用户
         
         Args:
-            nick_name: 用户昵称
-            phone: 手机号
-            access_token: 用户访问令牌
+            phone: 手机号（可选）
+            **kwargs: 其他用户字段
         Returns:
             User: 创建的用户对象
             
         Raises:
             ValueError: 如果手机号已存在
         """
-        # 加密手机号
-        phone_hash = cls.encrypt_phone(phone)
         
-        # 检查手机号是否已存在
-        if await cls.filter(phone_hash=phone_hash).exists():
+        # 如果提供了手机号，检查是否已存在
+        if phone and await cls.filter(phone=phone).exists():
             raise ValueError(f"手机号 '{phone}' 已被注册")
         
-        # 获取手机号后四位
-        phone_last_four = PhoneCrypto.get_last_four_digits(phone)
+        # 获取手机号后四位（如果有手机号）
+        phone_last_four = PhoneCrypto.get_last_four_digits(phone) if phone else ""
+        
+        # 设置默认值
+        user_data = {
+            "phone": phone,
+            "phone_last_four": phone_last_four,
+            "nick_name": kwargs.get("nick_name", ""),
+            "gender": kwargs.get("gender", 0),
+            "avatar": kwargs.get("avatar", ""),
+            "access_token": kwargs.get("access_token", ""),
+            "is_active": kwargs.get("is_active", True),
+        }
         
         # 创建用户
-        user = await cls.create(
-            phone_hash=phone_hash,
-            phone_last_four=phone_last_four,
-            is_active=True,
-            created_at=datetime.now(),
-        )
+        user = await cls.create(**user_data)
         
         return user
     
@@ -120,8 +143,8 @@ class User(Model):
         """
         更新用户信息
         """
-        target_field = f"${profile_key}"
-        await cls.filter(id=user_id).update(**{target_field: profile_value})
+        target_field = f"{profile_key}"
+        await cls.filter(uid=user_id).update(**{target_field: profile_value})
 
     @classmethod
     async def get_user_by_phone(cls, phone: str) -> Optional["User"]:
@@ -134,34 +157,44 @@ class User(Model):
         Returns:
             User: 用户对象或None
         """
-        phone_hash = cls.encrypt_phone(phone)
-        return await cls.get_or_none(phone_hash=phone_hash, is_active=True)
+        if not phone:
+            return None
+        return await cls.get_or_none(phone=phone, is_active=True)
     
-    def to_dict(self, include_phone: bool = False) -> dict:
+    def to_dict(self, include_phone: bool = True, include_sensitive: bool = False) -> dict:
         """
         转换为字典格式
         
         Args:
             include_phone: 是否包含手机号显示信息
+            include_sensitive: 是否包含敏感信息（如access_token）
             
         Returns:
             dict: 用户信息字典
         """
         data = {
             "uid": self.uid,
-            "nick_name": self.nick_name,
+            "nick_name": self.nick_name or "",
+            "access_token": self.access_token or "",
+            "gender": self.gender,
+            "gender_display": self.gender_display,
+            "avatar": self.avatar or "",
             "is_active": self.is_active,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
+            "created_at": self.created_at.isoformat() if self.created_at else "",
+            "updated_at": self.updated_at.isoformat() if self.updated_at else "",
         }
         
         if include_phone:
             data["phone_display"] = self.phone_display
+            data["phone"] = self.phone or ""
+            
+        if include_sensitive:
+            data["access_token"] = self.access_token or ""
             
         return data
     
     def __str__(self) -> str:
-        return f"User(uid={self.uid}, nick_name={self.nick_name})"
+        return f"User(uid={self.uid}, nick_name={self.nick_name or 'Unknown'})"
     
     def __repr__(self) -> str:
-        return f"<User {self.nick_name}>"
+        return f"<User {self.nick_name or 'Unknown'}>"

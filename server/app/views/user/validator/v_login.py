@@ -29,6 +29,7 @@ class LoginRequest(BaseModel):
     phone: str = Field(..., description="手机号")
     dial_code: str = Field(..., description="国际区号")
     sms_code: str = Field(..., description="短信验证码")
+    code_id: str = Field(..., description="验证码ID")
     
     @validator('phone')
     def validate_phone(cls, v):
