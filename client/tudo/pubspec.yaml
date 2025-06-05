@@ -57,6 +57,7 @@ dependencies:
   scrollable_positioned_list: ^0.3.8
   azlistview_plus: ^3.0.0
   pin_code_fields: ^8.0.1
+  dartx: ^1.2.0
   
 dev_dependencies:
   flutter_test:
