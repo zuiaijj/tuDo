@@ -258,7 +258,7 @@ def require_auth(f):
 
 def require_uid(f):
     """
-    用户认证装饰器 - 需要用户uid
+    用户认证装饰器 - 只需要验证需要用户uid
     """
     @wraps(f)
     async def decorated_function(request, *args, **kwargs):

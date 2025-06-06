@@ -1,6 +1,7 @@
 from sanic import Blueprint, Request
 from sanic.response import json
 from pydantic import ValidationError
+from app.models.const import Message
 from app.models.user.user import User
 from app.utils.jwt_utils import JWTUtils
 from app.services.sms_service import sms_service
@@ -30,7 +31,7 @@ async def send_sms_code(request: Request):
         try:
             data = SendSmsRequest(**request.json)
         except ValidationError as e:
-            return json(param_error_response(message="请求数据格式错误", error_details={"details": str(e)}))
+            return json(param_error_response(error_details={"details": str(e)}))
         
         # 发送短信验证码
         result = await sms_service.send_sms_code(data.phone, data.dial_code)
@@ -49,7 +50,7 @@ async def send_sms_code(request: Request):
     except Exception as e:
         print(f"发送短信验证码错误: {e}")
         print(traceback.format_exc())
-        return json(error_response(message="服务器内部错误"))
+        return json(error_response(message=Message.SERVER_ERROR))
 
 @auth_bp.post("/phone/register")
 async def register(request: Request):
@@ -69,7 +70,7 @@ async def register(request: Request):
         try:
             data = LoginRequest(**request.json)
         except ValidationError as e:
-            return json(param_error_response(message="请求数据格式错误", error_details={"details": str(e)}))
+            return json(param_error_response(error_details={"details": str(e)}))
         
         # 验证短信验证码
         verify_result = sms_service.verify_sms_code(data.phone, data.dial_code, data.sms_code, data.code_id)
@@ -83,7 +84,7 @@ async def register(request: Request):
         if not user:
             user = await User.create_user(verify_result["phone"])
         if not user.is_active:
-            return json(error_response(message="用户账号已被禁用"))
+            return json(error_response(message=Message.USER_DISABLED))
         
         # 生成JWT令牌
         access_token = JWTUtils.generate_access_token(user.uid)
@@ -99,7 +100,4 @@ async def register(request: Request):
     except Exception as e:
         print(f"用户登录错误: {e}")
         print(traceback.format_exc())
-        return json({
-            "error": "INTERNAL_ERROR",
-            "message": "服务器内部错误"
-        }, status=500)
+        return json(error_response(message=Message.SERVER_ERROR))

@@ -2,13 +2,14 @@ import jwt
 from datetime import datetime, timedelta
 from typing import Optional, Dict, Any
 from app.config.settings import settings
+from app.models.const import TokenType
 
 class JWTUtils:
     """JWT 工具类"""
     
     # 令牌过期时间配置
-    ACCESS_TOKEN_EXPIRES = 3600 * 24 * 30  # 30天
-    REFRESH_TOKEN_EXPIRES = 3600 * 24 * 30  # 30天
+    ACCESS_TOKEN_EXPIRES = TokenType.ACCESS_TOKEN_EXPIRE * 3600  # 转换为秒
+    REFRESH_TOKEN_EXPIRES = TokenType.REFRESH_TOKEN_EXPIRE * 3600
     
     @staticmethod
     def generate_access_token(user_id: int) -> str:

@@ -4,6 +4,7 @@ import re
 
 from app.utils.crypto_utils import PhoneCrypto
 from app.utils.validators import UidValidator
+from app.models.const import Message, ResponseCode, ErrorType
 
 class SendSmsRequest(BaseModel):
     """发送短信验证码请求"""
