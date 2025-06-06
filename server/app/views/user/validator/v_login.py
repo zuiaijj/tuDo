@@ -55,7 +55,7 @@ class LoginRequest(BaseModel):
         code = v.strip()
         return code
     
-class RefreshTokenRequest(UidValidator):
+class RefreshTokenRequest(BaseModel):
     """刷新令牌请求"""
     refresh_token: str = Field(..., description="刷新令牌")
     

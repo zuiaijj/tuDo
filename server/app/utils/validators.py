@@ -11,7 +11,7 @@ import re
 import time
 from functools import wraps
 
-from sanic import Request
+from sanic import Request, json
 
 from app.models.user.user import User
 from app.models.const import ResponseCode, ErrorType, Message
@@ -144,6 +144,39 @@ def param_error_response(
     ).json_response()
 
 
+async def uid_check(request: Request) -> Dict[str, Any]:
+    try:
+        # 从查询参数获取令牌和用户ID，处理列表值
+        query_params = {}
+        for key, value in request.args.items():
+            # request.args的值是列表，取第一个值
+            query_params[key] = value[0] if isinstance(value, list) and len(value) > 0 else value
+        
+        auth_params = UidValidator(**query_params)
+        user_id = auth_params.uid
+        
+        # 获取用户信息
+        user = await User.get(uid=user_id)
+        if not user or not user.is_active:
+            return error_response(
+                message=Message.USER_NOT_FOUND,
+                code=ResponseCode.NOT_FOUND,
+                error_type=ErrorType.NOT_FOUND_ERROR
+            )
+        return {
+            "code": ResponseCode.SUCCESS,
+            "user": user
+        }
+    except Exception as e:
+        print(f"获取用户信息错误: {e}")
+        print(traceback.format_exc())
+        return error_response(
+            message=Message.SERVER_ERROR,
+            code=ResponseCode.SERVER_ERROR,
+            error_type=ErrorType.SERVER_ERROR
+        )
+
+
 async def uid_sid_check(request: Request) -> Dict[str, Any]:
     try:
         # 从查询参数获取令牌和用户ID，处理列表值
@@ -194,3 +227,108 @@ async def uid_sid_check(request: Request) -> Dict[str, Any]:
             code=ResponseCode.SERVER_ERROR,
             error_type=ErrorType.SERVER_ERROR
         )
+    
+
+def require_auth(f):
+    """
+    认证装饰器 - 自动验证uid和access_token
+    
+    使用方法：
+    @auth_bp.route('/api/user/profile/update', methods=['POST'])
+    @require_auth
+    async def update_user_profile(request, current_user):
+        # current_user 是已验证的用户对象
+        # 在这里处理业务逻辑
+        pass
+    """
+    @wraps(f)
+    async def decorated_function(request, *args, **kwargs):
+        # 执行认证检查
+        auth_result = await uid_sid_check(request)
+        
+        # 如果认证失败，直接返回错误响应
+        if auth_result.get("code") != ResponseCode.SUCCESS:
+            return json(auth_result)
+        
+        # 认证成功，将用户对象传递给路由函数
+        current_user = auth_result.get("user")
+        return await f(request, current_user, *args, **kwargs)
+    
+    return decorated_function
+
+
+def require_uid(f):
+    """
+    用户认证装饰器 - 需要用户uid
+    """
+    @wraps(f)
+    async def decorated_function(request, *args, **kwargs):
+        auth_result = await uid_check(request)
+        if auth_result.get("code") != ResponseCode.SUCCESS:
+            return json(auth_result)
+        current_user = auth_result.get("user")
+        return await f(request, current_user, *args, **kwargs)
+    return decorated_function
+
+def optional_auth(f):
+    """
+    可选认证装饰器 - 如果提供了uid和access_token就验证，没有就传递None
+    
+    使用方法：
+    @auth_bp.route('/api/public/info', methods=['GET'])
+    @optional_auth
+    async def get_public_info(request, current_user):
+        # current_user 可能是User对象或None
+        if current_user:
+            # 已登录用户的逻辑
+        else:
+            # 未登录用户的逻辑
+        pass
+    """
+    @wraps(f)
+    async def decorated_function(request, *args, **kwargs):
+        current_user = None
+        
+        # 检查是否提供了认证参数
+        query_params = {}
+        for key, value in request.args.items():
+            query_params[key] = value[0] if isinstance(value, list) and len(value) > 0 else value
+        
+        if 'uid' in query_params and 'access_token' in query_params:
+            # 提供了认证参数，尝试验证
+            auth_result = await uid_sid_check(request)
+            if auth_result.get("code") == ResponseCode.SUCCESS:
+                current_user = auth_result.get("user")
+        
+        return await f(request, current_user, *args, **kwargs)
+    
+    return decorated_function
+
+
+def admin_required(f):
+    """
+    管理员权限装饰器 - 需要用户认证且具有管理员权限
+    
+    注意：需要先在User模型中添加is_admin字段
+    """
+    @wraps(f)
+    async def decorated_function(request, *args, **kwargs):
+        # 先执行认证检查
+        auth_result = await uid_sid_check(request)
+        
+        if auth_result.get("code") != ResponseCode.SUCCESS:
+            return json(auth_result)
+        
+        current_user = auth_result.get("user")
+        
+        # 检查是否有管理员权限（需要在User模型中添加is_admin字段）
+        # if not getattr(current_user, 'is_admin', False):
+        #     return json(error_response(
+        #         message=Message.PERMISSION_DENIED,
+        #         code=ResponseCode.FORBIDDEN,
+        #         error_type=ErrorType.AUTHORIZATION_ERROR
+        #     ))
+        
+        return await f(request, current_user, *args, **kwargs)
+    
+    return decorated_function
