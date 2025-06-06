@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:tudo/common/log/td_logger.dart';
 import 'package:tudo/common/net/http/model/base_net_model.dart';
+import 'package:tudo/common/toast/common_toast.dart';
+import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/tool/intl_tool.dart';
 import 'package:tudo/tool/string_tool.dart';
 import 'package:tudo/tool/url_tool.dart';
@@ -188,10 +190,10 @@ abstract class BaseApi {
   _httpError(ErrorCallBack? errorCallBack, int code, String msg,
       {String? rawUrl}) async {
     TdLogger.e('rawUrl: $rawUrl \n code : $code, msg : $msg');
-    if (code == 604) {
-      // ToastTool.show(msg);
+    if (code == 600) {
+      ToastTool.show(msg);
       TdLogger.i("-Login- 退出登录  Net err Code: 604");
-      // UserManager.instance.logout();
+      UserManager.instance.logout();
       return;
     }
     errorCallBack?.call(code, msg);

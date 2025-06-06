@@ -59,23 +59,4 @@ class LoginNet {
     ToastTool.show(response.message);
     return (null, null);
   }
-
-  static Future<bool> setProfile(Map<String, dynamic> params) async {
-    BaseNetRes response = await Api.ins.post(
-      LoginApi.setUserProfileApi,
-      body: params,
-      forceFetch: true,
-    );
-    if (response.isSuccess) {
-      return true;
-    }
-    ToastTool.show(response.message);
-    return false;
-  }
-
-  static logout() async {
-    await Api.ins.post(
-      LoginApi.logoutApi,
-    );
-  }
 }

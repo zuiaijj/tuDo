@@ -10,16 +10,16 @@
 class ResponseCode:
     """响应状态码"""
     SUCCESS = 0                    # 成功
-    PARAM_ERROR = 400             # 参数错误
-    UNAUTHORIZED = 401            # 未授权
     FORBIDDEN = 403               # 禁止访问
     NOT_FOUND = 404               # 资源不存在
     METHOD_NOT_ALLOWED = 405      # 方法不允许
     CONFLICT = 409                # 资源冲突
     VALIDATION_ERROR = 422        # 验证错误
     RATE_LIMIT = 429              # 请求过于频繁
+    PARAM_ERROR = 499             # 参数错误
     SERVER_ERROR = 500            # 服务器内部错误
     SERVICE_UNAVAILABLE = 503     # 服务不可用
+    UNAUTHORIZED = 600            # 未授权
 
 
 # ===========================

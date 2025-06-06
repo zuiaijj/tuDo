@@ -4,6 +4,7 @@ import 'package:tudo/common/net/http/model/base_net_model.dart';
 import 'package:tudo/common/net/meta.dart';
 import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/common/user/user_model.dart';
+import 'package:tudo/common/user/user_net.dart';
 import 'package:tudo/pages/login/login_step/country_code/country_code_model.dart';
 import 'package:tudo/pages/login/login_step/login_helper.dart';
 import 'package:tudo/pages/login/net/login_net.dart';
@@ -274,7 +275,7 @@ class LoginController extends GetxController {
   }
 
   Future<bool> _updateUserProfile(Map<String, dynamic> params) async {
-    bool isSuccess = await LoginNet.setProfile(params);
+    bool isSuccess = await UserNet.setProfile(params);
     if (isSuccess) {
       UserManager.instance.updateSingaleInfo(infoMap: params);
     }

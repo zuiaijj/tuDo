@@ -129,6 +129,20 @@ def error_response(
         timestamp=int(time.time() * 1000)
     ).json_response()
 
+def param_error_response(
+    message: str = Message.PARAM_ERROR,
+    error_type: Optional[str] = None,
+    error_details: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
+    return ErrorResponse(
+        code=ResponseCode.PARAM_ERROR,
+        message=message,
+        success=False,
+        error_type=error_type,
+        error_details=error_details,
+        timestamp=int(time.time() * 1000)
+    ).json_response()
+
 
 async def uid_sid_check(request: Request) -> Dict[str, Any]:
     try:

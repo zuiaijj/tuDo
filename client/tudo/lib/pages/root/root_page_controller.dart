@@ -81,6 +81,7 @@ class RootPageController extends GetxController {
       /// 线上环境初始化内容
     }
     // 进入大厅后初始化内容
+    UserManager.instance.reNewToken();
     // 处理业务进入大厅的初始化内容
   }
 }

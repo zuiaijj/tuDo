@@ -1,10 +1,12 @@
 import 'package:get/get.dart';
 import 'package:tudo/common/const/root_const.dart';
 import 'package:tudo/common/const/user_const.dart';
+import 'package:tudo/common/net/http/model/base_net_model.dart';
 import 'package:tudo/common/net/meta.dart';
 import 'package:tudo/common/toast/common_toast.dart';
 import 'dart:convert';
 import 'package:tudo/common/user/user_model.dart';
+import 'package:tudo/common/user/user_net.dart';
 import 'package:tudo/pages/login/login_step/login_controller.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/tool/cal_tool.dart';
@@ -92,7 +94,7 @@ class UserManager {
 
   Future<void> logout() async {
     ToastTool.showLoading();
-    // await LoginNet.logout();
+    await UserNet.logout();
     clear();
     MetaTool.clearMetaData();
     if (Get.isRegistered<RootPageController>()) {
@@ -114,6 +116,17 @@ class UserManager {
       if (userMap.isNotEmpty) {
         _user = UserModel.fromJson(userMap);
       }
+    }
+  }
+
+  Future<void> reNewToken() async {
+    BaseNetRes? response = await UserNet.refreshToken();
+    if (response != null) {
+      _refreshToken = response.data['refresh_token'];
+      SpTool.putString(AppSpKeys.refreshToken, _refreshToken ?? '');
+      _user?.session = response.data['access_token'];
+      MetaTool.fetchMetaMap();
+      _save();
     }
   }
 }

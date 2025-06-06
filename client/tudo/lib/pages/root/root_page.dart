@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/pages/login/login_enter.dart';
+import 'package:tudo/pages/root/root_home.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/pages/root/splash.dart';
 import 'package:tudo/tool/get_tool.dart';
@@ -25,16 +26,7 @@ class _RootPageState extends State<RootPage> {
         return Stack(
           children: [
             // 首页大厅
-            if (controller.isLoggedIn)
-              Container(
-                alignment: Alignment.center,
-                child: Text(
-                  '登录成功 ${UserManager.instance.user?.id}，欢迎回来',
-                  style: textTheme.bodyLarge?.copyWith(
-                    color: colorScheme.onSurface,
-                  ),
-                ),
-              ),
+            if (controller.isLoggedIn) const RootHome(),
 
             // 登录页面
             if (!controller.isLoggedIn) const LoginEnter(),
