@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tudo/common/user/user_manager.dart';
 import 'package:tudo/pages/login/login_enter.dart';
 import 'package:tudo/pages/root/root_home.dart';
 import 'package:tudo/pages/root/root_page_controller.dart';
 import 'package:tudo/pages/root/splash.dart';
-import 'package:tudo/tool/get_tool.dart';
 
 /// 页面Root page
 /// 所有页面的根页面
