@@ -2,13 +2,12 @@ from sanic import Blueprint, Request
 from sanic.response import json
 from pydantic import ValidationError
 from app.models.user.user import User
-from app.utils.jwt_utils import JWTUtils, JWTExpiredError, JWTInvalidError
+from app.utils.jwt_utils import JWTUtils
 from app.services.sms_service import sms_service
 import traceback
-from datetime import datetime
 
-from app.utils.validators import DataResponse, ErrorResponse, UidSidValidator, error_response, param_error_response, success_response
-from app.views.user.validator.v_login import LoginRequest, SendSmsRequest, RefreshTokenRequest
+from app.utils.validators import error_response, param_error_response, success_response
+from app.views.user.validator.v_login import LoginRequest, SendSmsRequest
 
 # 创建认证蓝图
 auth_bp = Blueprint("login", url_prefix="/api/login")

@@ -5,7 +5,7 @@ from sanic.response import json
 from app.models.const import UserMeta
 from app.models.user.user import User
 from app.utils.jwt_utils import JWTExpiredError, JWTInvalidError, JWTUtils
-from app.utils.validators import DataResponse, ErrorResponse, UidSidValidator, error_response, param_error_response, require_auth, require_uid, success_response
+from app.utils.validators import error_response, param_error_response, require_auth, require_uid, success_response
 from app.views.user.validator.v_login import RefreshTokenRequest
 
 user_bp = Blueprint("user", url_prefix="/api/user")

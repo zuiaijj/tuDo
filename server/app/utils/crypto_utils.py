@@ -7,7 +7,6 @@
 import os
 import base64
 import hashlib
-from typing import Optional
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import padding, serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding as rsa_padding

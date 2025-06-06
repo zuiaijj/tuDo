@@ -3,7 +3,7 @@ import random
 import time
 import uuid
 from typing import Dict, Optional, Any
-from datetime import datetime, timedelta
+from datetime import datetime
 
 class SmsService:
     """
