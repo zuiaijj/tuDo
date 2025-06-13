@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:dio/io.dart';
 import 'package:tudo/common/const/app_const.dart';
 import 'package:tudo/common/env/env_manager.dart';
-import 'package:tudo/tool/sp_tool.dart';
 import 'package:tudo/tool/string_tool.dart';
 import '../base_service.dart';
 
